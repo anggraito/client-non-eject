@@ -27,7 +27,7 @@ class Header extends React.Component {
       <View style={styles.container}>
         <Image 
           style={styles.imgWrapper}
-          source={require('../assets/images/logo.png')} />
+          source={require('../assets/images/logo-font.gif')} />
         <GooglePlacesAutocomplete
           placeholder='Enter Location'
           minLength={2}
@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imgWrapper: {
-    width: '45%', 
-    height: 40,
+    width: '65%', 
+    height: 47,
   }
 })
 
@@ -102,12 +102,6 @@ const mapStateToProps = state => {
   }
 }
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     setRegion: (detailRegion) =>  dispatch(setRegion(detailRegion))
-//     // searchRegion: (detailRegion) =>  dispatch(search_region(detailRegion))
-//   }
-// }
 
 const mapDispatchToProps = dispatch => {
   return {

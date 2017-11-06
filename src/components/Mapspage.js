@@ -6,8 +6,8 @@ import { StyleSheet, Text,
         Animated, TouchableOpacity} from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
-import { setRegion, getDataAPI } from '../actions/RegionActions'
 
+import { setRegion, getDataAPI } from '../actions/RegionActions'
 import List from './List'
 
 let { width, height, height: windowHeight } = Dimensions.get('window')
@@ -25,7 +25,6 @@ class Maps extends React.Component {
     super(props)
     this.state = {
       selectedRadius: 0,
-      // radiusDefider: 0,
       markers: [{  // dummies multiple marker
         title: 'Koi Residence',
         coordinates: {
@@ -101,16 +100,13 @@ class Maps extends React.Component {
     console.log('find me unnnnnnnnch')
     navigator.geolocation.getCurrentPosition(
       position => {
-        // this.setState({
           dataRegion = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
           }
-        // })
         this.props.setRegion(dataRegion)
-
       },
       (error) => console.log(error.message),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
@@ -119,20 +115,20 @@ class Maps extends React.Component {
 
   render() {
     console.log('data store regional',this.props.regional)
-    const buttonCurrent = windowHeight - 430
+    const buttonCurrent = windowHeight - 420
     const hitSlop = {
       top: 15,
       bottom: 15,
       left: 15,
       right: 15,
     }
-    bbStyle = function(vheightButton) {
+    bbStyle = function(vheight) {
       return {
         position: 'absolute',
-        top: vheightButton,
+        top: vheight,
         left: 10,
         backgroundColor: 'transparent',
-        zIndex: 999
+        zIndex: 99
       }
     }
 
@@ -219,10 +215,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255, 0.9)',
     width: '100%',
     paddingBottom: 8, 
+    paddingLeft: '2%',
+    paddingRight: '2%',
     alignItems: 'center'
   },
   slider: {
     flex: 1,
+  },
+  radiusText:{
+    paddingLeft: 2,
+    width: 50,
+    paddingBottom: 0,
   },
   ring: {
     width: 24,
