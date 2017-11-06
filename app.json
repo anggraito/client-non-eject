@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "sdkVersion": "22.0.0",
+    "name": "Accidentifier",
+    "version": "1.0.0",
+    "slug": "accidentifier",
+  },
+  "android": {
+    "package": "hariantara.com",
+    "config": {
+      "googleMaps": {
+        "apiKey": "AIzaSyCp-BUoX8B8699rkbnb2P2CK4gXSeesVcc"
+      }
+    }
+  }
+}
