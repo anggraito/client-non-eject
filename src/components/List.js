@@ -41,21 +41,6 @@ class List extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    console.log('bawahnya all state', state.HeaderReducer.regional)
-    return {
-        accidents: state.HeaderReducer.accidents
-    }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        setRegion: (region) => dispatch(setRegion(region))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(List)
-
 // export default List
 const styles = StyleSheet.create({
     container: {
@@ -77,5 +62,20 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50
     },
-  })
+})
+
+const mapStateToProps = state => {
+    console.log('bawahnya all state', state.HeaderReducer.regional)
+    return {
+        accidents: state.HeaderReducer.accidents
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setRegion: (region) => dispatch(setRegion(region))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(List)
 

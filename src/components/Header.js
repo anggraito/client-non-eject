@@ -16,33 +16,9 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 class Header extends React.Component {
 
-  // constructor(){
-  //   super()
-  //   this.state = {
-  //     region: {
-  //       latitude: LATITUDE,
-  //       longitude: LONGITUDE,
-  //       latitudeDelta: LATITUDE_DELTA,
-  //       longitudeDelta: LONGITUDE_DELTA,
-  //     }
-  //   }
-  // }
-
   onSearchChange(region){
-  //   // ini dikirim ek store harusnya
-  //   console.log('ini data on search',detailRegion)
-    // this.setState({
-    //   region: {
-    //     latitude: detailRegion.latitude,
-    //     longitude: detailRegion.longitude,
-    //     latitudeDelta: LATITUDE_DELTA,
-    //     longitudeDelta: LONGITUDE_DELTA,
-    //   }
-    // })
-    // console.log('region atas', this.state.region)
     console.log('di klik')
     this.props.setRegion(region)
-    // this.props.setRegion(region)
   }
 
   render() {

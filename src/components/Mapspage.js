@@ -1,21 +1,24 @@
 import React from 'react'
 import { StyleSheet, Text, 
-        View, Picker,
+        View, Picker, Image,
         Dimensions, Button, 
         Slider, FlatList,
-        TouchableOpacity } from 'react-native'
+        Animated, TouchableOpacity} from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import { setRegion, getDataAPI } from '../actions/RegionActions'
 
 import List from './List'
 
-let { width, height } = Dimensions.get('window')
+let { width, height, height: windowHeight } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
 const LATITUDE = 6.17511 //  anggep aja Jakarta 
 const LONGITUDE = 106.8650395 // //  anggep aja Jakarta
 const LATITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
+// const CARD_HEIGHT = height / 4
+// const CARD_WIDTH = CARD_HEIGHT - 50
+
 
 class Maps extends React.Component {
   constructor(props){
@@ -67,15 +70,13 @@ class Maps extends React.Component {
 
       },
       (error) => console.log(error.message),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     )
   }
 
   changeLabelRadius(radius) {
-    // console.log('defider', this.state.radiusDefider)
     this.setState({
-      selectedRadius: radius,
-      // radiusDefider: this.state.selectedRadius / 1000
+      selectedRadius: radius
     })
     console.log('state radius di change label', this.state.selectedRadius)
   }
@@ -95,18 +96,63 @@ class Maps extends React.Component {
     }
     this.props.getDataAPI(dataFromMaps)
   }
+  
+  _findMe () {
+    console.log('find me unnnnnnnnch')
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        // this.setState({
+          dataRegion = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+          }
+        // })
+        this.props.setRegion(dataRegion)
+
+      },
+      (error) => console.log(error.message),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    )
+  }
 
   render() {
-    console.log('data store regional',this.props.regional);
-    // console.log('region state ====>', this.state.region)
+    console.log('data store regional',this.props.regional)
+    const buttonCurrent = windowHeight - 430
+    const hitSlop = {
+      top: 15,
+      bottom: 15,
+      left: 15,
+      right: 15,
+    }
+    bbStyle = function(vheightButton) {
+      return {
+        position: 'absolute',
+        top: vheightButton,
+        left: 10,
+        backgroundColor: 'transparent',
+        zIndex: 999
+      }
+    }
+
     return (
       <View style ={styles.container}>
+
+      <View style={bbStyle(buttonCurrent)}>
+         <TouchableOpacity
+           hitSlop = {hitSlop}
+           style={styles.mapButton}
+           onPress={ () => this._findMe() }>
+            <Image 
+              source={require('../assets/images/current-position.png')} />
+         </TouchableOpacity>
+       </View>
+
         <MapView
           provider={ PROVIDER_GOOGLE }
           style={ styles.map }
           showsUserLocation={ true }
-          showsMyLocationButton={true}
-          showsCompass={true}
           region={ this.props.regional }
           showsTraffic={true}
           zoomEnabled={true}
@@ -114,26 +160,27 @@ class Maps extends React.Component {
           onRegionChangeComplete={ region => this.functionAA(region) }
           >
           <MapView.Marker draggable
-            title={'Drag n Push Me'}
+            title={'Drag Me'}
             coordinate={ this.props.regional }
             onPress={e => console.log(e.nativeEvent)}
             onDragEnd={e => console.log('drag end', e.nativeEvent)}
           />
-          {this.props.accidents.markers.map((data, idx) => {
-            return (
-              <MapView.Marker key = {idx}
-                title = {data.title}
-                coordinate = {data.coordinates}
-                image={require('../assets/images/markerpoint5.png')}
-              />
-            )
-          })}
           <MapView.Circle
             center={{latitude: this.props.regional.latitude, longitude: this.props.regional.longitude}}
             radius={this.state.selectedRadius}
             fillColor="rgba(0, 0, 0, 0.2)"
             strokeColor="rgba(0, 0, 0, 0.2)"/>
-          </MapView>
+          {this.props.accidents.markers.map((data, idx) => {
+            return (
+              <MapView.Marker key = {idx}
+                title = {data.title}
+                coordinate = {data.coordinates}
+                image={require('../assets/images/markerpoint5.png')}>
+                <Animated.View style={[styles.ring]} />
+              </MapView.Marker>
+            )
+          })}
+        </MapView>
         <List />
         <View style={styles.footerWrap}>
           <Slider
@@ -159,10 +206,9 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    paddingTop: '120%'
+    paddingBottom: '20%'
   },
   compassStyle:{
-    bottom: 50,
     left: 10,
   },
   footerWrap: {
@@ -176,7 +222,28 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   slider: {
-    width: 300,
+    flex: 1,
+  },
+  ring: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: "rgba(130,4,150, 0.3)",
+    position: "absolute",
+    borderWidth: 1,
+    borderColor: "rgba(130,4,150, 0.5)",
+  },
+  mapButton: {
+    width: 35,
+    height: 35,
+    borderRadius: 85/2,
+    backgroundColor: 'rgba(252, 253, 253, 0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: 'black',
+    shadowRadius: 8,
+    shadowOpacity: 0.12,
+    zIndex: 10,
   }
 })
 
@@ -198,15 +265,63 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Maps)
 
-// onRegionChangeComplete={ region => this.setState({
-//   region:{
-//     latitude: this.props.regional.latitude,
-//     longitude: this.props.regional.longitude,
-//     latitudeDelta: this.props.regional.latitudeDelta,
-//     longitudeDelta: this.props.regional.longitudeDelta
-//   }
-// })}
-
-
-
-// onDragEnd={(e) => this.setState({ region: e.nativeEvent.coordinate })}
+// scrollView: {
+//   position: "absolute",
+//   bottom: 30,
+//   left: 0,
+//   right: 0,
+//   paddingVertical: 10,
+// },
+// endPadding: {
+//   paddingRight: width - CARD_WIDTH,
+// },
+// card: {
+//   padding: 10,
+//   elevation: 2,
+//   backgroundColor: "#FFF",
+//   marginHorizontal: 10,
+//   shadowColor: "#000",
+//   shadowRadius: 5,
+//   shadowOpacity: 0.3,
+//   shadowOffset: { x: 2, y: -2 },
+//   height: CARD_HEIGHT,
+//   width: CARD_WIDTH,
+//   overflow: "hidden",
+// },
+// cardImage: {
+//   flex: 3,
+//   width: "100%",
+//   height: "100%",
+//   alignSelf: "center",
+// },
+// textContent: {
+//   flex: 1,
+// },
+// cardtitle: {
+//   fontSize: 12,
+//   marginTop: 5,
+//   fontWeight: "bold",
+// },
+// cardDescription: {
+//   fontSize: 12,
+//   color: "#444",
+// },
+// markerWrap: {
+//   alignItems: "center",
+//   justifyContent: "center",
+// },
+// marker: {
+//   width: 8,
+//   height: 8,
+//   borderRadius: 4,
+//   backgroundColor: "rgba(130,4,150, 0.9)",
+// },
+// ring: {
+//   width: 24,
+//   height: 24,
+//   borderRadius: 12,
+//   backgroundColor: "rgba(130,4,150, 0.3)",
+//   position: "absolute",
+//   borderWidth: 1,
+//   borderColor: "rgba(130,4,150, 0.5)",
+// },
