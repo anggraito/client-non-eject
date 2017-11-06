@@ -6,7 +6,8 @@ import {
     FlatList,
     Image,
     Linking,
-    TouchableHighlight
+    TouchableHighlight,
+    ActivityIndicator
 } from 'react-native'
 import { connect } from 'react-redux'
 
@@ -17,11 +18,17 @@ class List extends Component {
         Linking.openURL(link)
     }
 
+    displayIndicator(){
+        return this.props.accidents.loading ? <ActivityIndicator/> : null
+    }
+
     render() {
         return (
           <View style={styles.container}>
+          { this.displayIndicator() }
             <FlatList horizontal
             data={this.props.accidents.accidents}
+            keyExtractor={(item, index) => index}
             renderItem={({item}) => {
                 return (
                     <TouchableHighlight onPress={() => {this._onPress(item.accident.linksite)} }>

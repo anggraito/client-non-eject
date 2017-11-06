@@ -61,3 +61,13 @@ export const setRegion = (region) => {
     }
   }
 }
+
+export const setRadius = (radius) => {
+  console.log('ini action setRadius ---->', radius)
+  return {
+    type: 'SET_RADIUS',
+    payload: {
+      radius
+    }
+  }
+}

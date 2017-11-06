@@ -16,18 +16,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 class Header extends React.Component {
 
-  // constructor(){
-  //   super()
-  //   this.state = {
-  //     region: {
-  //       latitude: LATITUDE,
-  //       longitude: LONGITUDE,
-  //       latitudeDelta: LATITUDE_DELTA,
-  //       longitudeDelta: LONGITUDE_DELTA,
-  //     }
-  //   }
-  // }
-
   onSearchChange(region){
   //   // ini dikirim ek store harusnya
   //   console.log('ini data on search',detailRegion)
@@ -51,7 +39,7 @@ class Header extends React.Component {
     var dataFromMaps = {
       lat: this.props.regional.latitude,
       lng: this.props.regional.longitude,
-      radius: 10
+      radius: this.props.selectedRadius / 1000
     }
     this.props.getDataAPI(dataFromMaps)
   }
@@ -76,7 +64,6 @@ class Header extends React.Component {
               longitudeDelta: LONGITUDE_DELTA,
             }
             this.onSearchChange(region)
-            
           }}
           styles={{
             textInputContainer: {
@@ -134,7 +121,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    regional: state.HeaderReducer.regional
+    regional: state.HeaderReducer.regional,
+    selectedRadius: state.HeaderReducer.selectedRadius
   }
 }
 

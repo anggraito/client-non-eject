@@ -6,7 +6,7 @@ import { StyleSheet, Text,
         TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
-import { setRegion, getDataAPI } from '../actions/RegionActions'
+import { setRegion, getDataAPI, setRadius } from '../actions/RegionActions'
 
 import List from './List'
 
@@ -73,10 +73,11 @@ class Maps extends React.Component {
 
   changeLabelRadius(radius) {
     // console.log('defider', this.state.radiusDefider)
-    this.setState({
-      selectedRadius: radius,
-      // radiusDefider: this.state.selectedRadius / 1000
-    })
+    // this.setState({
+    //   selectedRadius: radius,
+    //   // radiusDefider: this.state.selectedRadius / 1000
+    // })
+    this.props.setRadius(radius)
     console.log('state radius di change label', this.state.selectedRadius)
   }
 
@@ -91,7 +92,7 @@ class Maps extends React.Component {
     var dataFromMaps = {
       lat: this.props.regional.latitude,
       lng: this.props.regional.longitude,
-      radius: this.state.selectedRadius / 1000
+      radius: this.props.selectedRadius / 1000
     }
     this.props.getDataAPI(dataFromMaps)
   }
@@ -130,7 +131,7 @@ class Maps extends React.Component {
           })}
           <MapView.Circle
             center={{latitude: this.props.regional.latitude, longitude: this.props.regional.longitude}}
-            radius={this.state.selectedRadius}
+            radius={this.props.selectedRadius}
             fillColor="rgba(0, 0, 0, 0.2)"
             strokeColor="rgba(0, 0, 0, 0.2)"/>
           </MapView>
@@ -142,8 +143,8 @@ class Maps extends React.Component {
             minimumValue={0}
             maximumValue={10000}
             step={1000}
-            onValueChange={(radius) => this.changeLabelRadius(radius)} />
-          <Text style={styles.radiusText}> {this.state.selectedRadius / 1000 } KM </Text>
+            onValueChange={(radius) => this.props.setRadius(radius)} />
+          <Text style={styles.radiusText}> {this.props.selectedRadius / 1000 } KM </Text>
           <Button 
             onPress={() => this.getNews()}
             title="Find"/>
@@ -184,14 +185,16 @@ const mapStateToProps = state => {
   console.log('bawahnya all state', state.HeaderReducer.regional)
   return {
     regional: state.HeaderReducer.regional,
-    accidents: state.HeaderReducer.accidents
+    accidents: state.HeaderReducer.accidents,
+    selectedRadius: state.HeaderReducer.selectedRadius
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     setRegion: (region) =>  dispatch(setRegion(region)),
-    getDataAPI: (dataFromMaps) => dispatch(getDataAPI(dataFromMaps))
+    getDataAPI: (dataFromMaps) => dispatch(getDataAPI(dataFromMaps)),
+    setRadius: (radius) => dispatch(setRadius(radius))
 
   }
 } 
