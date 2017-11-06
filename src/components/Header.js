@@ -20,6 +20,7 @@ class Header extends React.Component {
     console.log('di klik')
     this.props.setRegion(region)
     this.getNewsInSearch()
+    this.props.accidents.loading = true
   }
 
   getNewsInSearch() {
@@ -110,7 +111,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     regional: state.HeaderReducer.regional,
-    selectedRadius: state.HeaderReducer.selectedRadius
+    selectedRadius: state.HeaderReducer.selectedRadius,
+    accidents: state.HeaderReducer.accidents,
   }
 }
 

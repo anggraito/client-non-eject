@@ -1,8 +1,8 @@
 {
-  "expoServerPort": 19003,
-  "expoServerNgrokUrl": "https://bt-66s.anggraito.client-non-eject.exp.direct",
-  "packagerNgrokUrl": "https://packager.bt-66s.anggraito.client-non-eject.exp.direct",
-  "ngrokPid": 5183,
-  "packagerPort": 19004,
-  "packagerPid": 5171
+  "expoServerPort": 19002,
+  "expoServerNgrokUrl": "https://bt-66s.rahidayat.client-non-eject.exp.direct",
+  "packagerNgrokUrl": "https://packager.bt-66s.rahidayat.client-non-eject.exp.direct",
+  "ngrokPid": 10472,
+  "packagerPort": 19003,
+  "packagerPid": 10454
 }

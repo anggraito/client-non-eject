@@ -24,7 +24,7 @@ class Maps extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      selectedRadius: 0,
+      // selectedRadius: 0,
       markers: [{  // dummies multiple marker
         title: 'Koi Residence',
         coordinates: {
@@ -73,13 +73,13 @@ class Maps extends React.Component {
     )
   }
 
-  changeLabelRadius(radius) {
-    // this.setState({
-    //   selectedRadius: radius
-    // })
-    this.props.setRadius(radius)
-    console.log('state radius di change label', this.state.selectedRadius)
-  }
+  // changeLabelRadius(radius) {
+  //   // this.setState({
+  //   //   selectedRadius: radius
+  //   // })
+  //   this.props.setRadius(radius)
+  //   console.log('state radius di change label', this.state.selectedRadius)
+  // }
 
 
   functionAA (region) {
@@ -144,6 +144,9 @@ class Maps extends React.Component {
             <Image 
               source={require('../assets/images/current-position.png')} />
          </TouchableOpacity>
+       </View>
+       <View style={styles.counter}>
+        <Text> {this.props.accidents.accidents.length} accident(s) </Text>
        </View>
 
         <MapView
@@ -246,6 +249,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     shadowColor: 'black',
     shadowRadius: 8,
+    shadowOpacity: 0.12,
+    zIndex: 10,
+  },
+  counter: {
+    width: '30%',
+    top: 140,
+    left: '65%',
+    height: 35,
+    borderRadius: 85/2,
+    backgroundColor: 'rgba(212, 253, 253, 0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // shadowColor: 'black',
+    // shadowRadius: 8,
     shadowOpacity: 0.12,
     zIndex: 10,
   }

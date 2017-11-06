@@ -20,7 +20,7 @@ const defaultState = {
   accidents: {
     accidents: [],
     markers: [],
-    loading: true
+    loading: false
   },
   selectedRadius: 1000
   // markers: []
