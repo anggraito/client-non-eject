@@ -9,12 +9,19 @@ import {
     TouchableHighlight
 } from 'react-native'
 import { connect } from 'react-redux'
+import { setCenter, setRegion } from '../actions/RegionActions'
 
 class List extends Component {
     
-    _onPress (link) {
+    _onPress (accident) {
         console.log('open link')
-        Linking.openURL(link)
+        var coord = {
+            latitude: accident.lat,
+            longitude: accident.lng
+        }
+        // this.props.methodAnimated(accident)
+        this.props.setCenter(coord)
+        // Linking.openURL(link)
     }
 
     render() {
@@ -24,7 +31,7 @@ class List extends Component {
             data={this.props.accidents.accidents}
             renderItem={({item}) => {
                 return (
-                    <TouchableHighlight onPress={() => {this._onPress(item.accident.linksite)} }>
+                    <TouchableHighlight onPress={() => {this._onPress(item.accident)} }>
                         <View style={styles.contentWrap}>
                             <Text>{item.accident.title}</Text>
                             <Image
@@ -65,7 +72,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-    console.log('bawahnya all state', state.HeaderReducer.regional)
+    // console.log('bawahnya all state', state.HeaderReducer.regional)
     return {
         accidents: state.HeaderReducer.accidents
     }
@@ -73,7 +80,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setRegion: (region) => dispatch(setRegion(region))
+        setRegion: (region) => dispatch(setRegion(region)),
+        setCenter: (coord) => dispatch(setCenter(coord)),
+
     }
 }
 

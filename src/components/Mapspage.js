@@ -6,7 +6,7 @@ import { StyleSheet, Text,
         Animated, TouchableOpacity} from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
-import { setRegion, getDataAPI } from '../actions/RegionActions'
+import { setRegion, getDataAPI, setCenter } from '../actions/RegionActions'
 
 import List from './List'
 
@@ -85,6 +85,7 @@ class Maps extends React.Component {
   functionAA (region) {
     console.log('aa')
     this.props.setRegion(region)
+    this.props.setCenter(region)
   }
 
   getNews () {
@@ -117,8 +118,26 @@ class Maps extends React.Component {
     )
   }
 
+  animated(accident) {
+    console.log('animated', accident)
+    var animateCoord = {
+      latitude: Number(accident.lat),
+      longitude: Number(accident.lng)
+    }
+    var animateCoord2 = {
+      latitude: Number(accident.lat),
+      longitude: Number(accident.lng),
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA
+    }
+
+    // this._map.animateToCoordinate(animateCoord, 1)
+    this._map.animateToRegion(animateCoord2, 2)
+  }
+
+
   render() {
-    console.log('data store regional',this.props.regional)
+    // console.log('data store regional',this.props.regional)
     const buttonCurrent = windowHeight - 430
     const hitSlop = {
       top: 15,
@@ -149,16 +168,16 @@ class Maps extends React.Component {
          </TouchableOpacity>
        </View>
 
-        <MapView
+        <MapView.Animated
+          ref={ component => {this._map = component}}
           provider={ PROVIDER_GOOGLE }
           style={ styles.map }
           showsUserLocation={ true }
-          region={ this.props.regional }
+          region={ this.props.centerMaps }
           showsTraffic={true}
           zoomEnabled={true}
           moveOnMarkerPress={false}
-          onRegionChangeComplete={ region => this.functionAA(region) }
-          >
+          onRegionChangeComplete={ region => this.functionAA(region) } >
           <MapView.Marker draggable
             title={'Drag Me'}
             coordinate={ this.props.regional }
@@ -180,8 +199,8 @@ class Maps extends React.Component {
               </MapView.Marker>
             )
           })}
-        </MapView>
-        <List />
+        </MapView.Animated>
+        <List methodAnimated={this.animated}/>
         <View style={styles.footerWrap}>
           <Slider
             style={styles.slider}
@@ -248,18 +267,20 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-  console.log('bawahnya all state', state.HeaderReducer.regional)
+  // console.log('bawahnya all state', state.HeaderReducer.regional)
   return {
     regional: state.HeaderReducer.regional,
-    accidents: state.HeaderReducer.accidents
+    accidents: state.HeaderReducer.accidents,
+    centerMaps: state.HeaderReducer.centerMaps,
+
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     setRegion: (region) =>  dispatch(setRegion(region)),
-    getDataAPI: (dataFromMaps) => dispatch(getDataAPI(dataFromMaps))
-
+    getDataAPI: (dataFromMaps) => dispatch(getDataAPI(dataFromMaps)),
+    setCenter: (coord) => dispatch(setCenter(coord)),
   }
 } 
 

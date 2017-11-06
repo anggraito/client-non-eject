@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const getDataAPI = (dataFromMaps) => {
   return (dispatch, getState) => {
-    const url = 'http://35.185.184.137/api/accident'
+    const url = 'http://35.196.134.74/api/accident'
     // const url = 'http://localhost:3000/api/accident'
     var dataFrontEnd = {
       lat: dataFromMaps.lat,
@@ -43,7 +43,7 @@ export const setDataAccidents = (data) => {
 
 
 export const search_region = (detailRegion) => {
-  console.log('ini di action-----> ',detailRegion)
+  // console.log('ini di action-----> ',detailRegion)
   return {
     type: 'SEARCH_REGION',
     payload: {
@@ -53,11 +53,21 @@ export const search_region = (detailRegion) => {
 }
 
 export const setRegion = (region) => {
-  console.log('ini di action setRegion -----> ',region)
+  // console.log('ini di action setRegion -----> ',region)
   return {
     type: 'SET_REGION',
     payload: {
       region
+    }
+  }
+}
+
+export const setCenter = (coord) => {
+  // console.log('ini di action setCenter -----> ',coord)
+  return {
+    type: 'SET_CENTER',
+    payload: {
+      coord
     }
   }
 }
