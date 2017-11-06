@@ -5,7 +5,7 @@ import { StyleSheet, Text,
 import { connect } from 'react-redux'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 
-import { setRegion } from '../actions/RegionActions'
+import { setRegion, getDataAPI } from '../actions/RegionActions'
 
 let { width, height } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
@@ -42,7 +42,18 @@ class Header extends React.Component {
     // console.log('region atas', this.state.region)
     console.log('di klik')
     this.props.setRegion(region)
+    this.getNewsInSearch()
     // this.props.setRegion(region)
+  }
+
+  getNewsInSearch() {
+    console.log('klik list search')
+    var dataFromMaps = {
+      lat: this.props.regional.latitude,
+      lng: this.props.regional.longitude,
+      radius: 10
+    }
+    this.props.getDataAPI(dataFromMaps)
   }
 
   render() {
@@ -65,6 +76,7 @@ class Header extends React.Component {
               longitudeDelta: LONGITUDE_DELTA,
             }
             this.onSearchChange(region)
+            
           }}
           styles={{
             textInputContainer: {
@@ -135,7 +147,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setRegion: (region) =>  dispatch(setRegion(region))
+    setRegion: (region) =>  dispatch(setRegion(region)),
+    getDataAPI: (dataFromMaps) => dispatch(getDataAPI(dataFromMaps))
   }
 } 
 
