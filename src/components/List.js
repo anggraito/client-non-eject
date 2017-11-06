@@ -4,7 +4,8 @@ import {
     StyleSheet,
     FlatList, Image,
     Linking, Dimensions,
-    TouchableHighlight
+    TouchableHighlight,
+    ActivityIndicator
 } from 'react-native'
 import { connect } from 'react-redux'
 
@@ -18,9 +19,14 @@ class List extends Component {
         Linking.openURL(link)
     }
 
+    displayIndicator(){
+        return this.props.accidents.loading ? <ActivityIndicator/> : null
+    }
+
     render() {
         return (
           <View style={styles.container}>
+          { this.displayIndicator() }
             <FlatList horizontal
             data={this.props.accidents.accidents}
             renderItem={({item}) => {
@@ -66,6 +72,7 @@ const styles = StyleSheet.create({
     textNews: {
         flex: 3,
         paddingLeft: 12,
+        maxHeight: 35,
     }
 })
 

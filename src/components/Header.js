@@ -5,7 +5,7 @@ import { StyleSheet, Text,
 import { connect } from 'react-redux'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 
-import { setRegion } from '../actions/RegionActions'
+import { setRegion, getDataAPI } from '../actions/RegionActions'
 
 let { width, height } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
@@ -19,6 +19,17 @@ class Header extends React.Component {
   onSearchChange(region){
     console.log('di klik')
     this.props.setRegion(region)
+    this.getNewsInSearch()
+  }
+
+  getNewsInSearch() {
+    console.log('klik list search')
+    var dataFromMaps = {
+      lat: this.props.regional.latitude,
+      lng: this.props.regional.longitude,
+      radius: this.props.selectedRadius / 1000
+    }
+    this.props.getDataAPI(dataFromMaps)
   }
 
   render() {
@@ -98,14 +109,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    regional: state.HeaderReducer.regional
+    regional: state.HeaderReducer.regional,
+    selectedRadius: state.HeaderReducer.selectedRadius
   }
 }
 
 
 const mapDispatchToProps = dispatch => {
   return {
-    setRegion: (region) =>  dispatch(setRegion(region))
+    setRegion: (region) =>  dispatch(setRegion(region)),
+    getDataAPI: (dataFromMaps) => dispatch(getDataAPI(dataFromMaps))
   }
 } 
 
