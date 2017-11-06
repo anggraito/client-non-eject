@@ -19,8 +19,10 @@ const defaultState = {
   },
   accidents: {
     accidents: [],
-    markers: []
+    markers: [],
+    loading: true
   },
+  selectedRadius: 1000
   // markers: []
 }
 
@@ -49,10 +51,13 @@ const HeaderReducer = (state = defaultState, action) => {
 
       accidentsData = {
         accidents: action.payload.data,
-        markers: markers
+        markers: markers,
+        loading: false,
       }
 
       return { ...state, accidents: accidentsData}
+      case 'SET_RADIUS' :
+        return { ...state, selectedRadius: action.payload.radius}
     default:
       return state
   }

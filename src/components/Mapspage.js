@@ -186,7 +186,7 @@ class Maps extends React.Component {
             minimumValue={0}
             maximumValue={10000}
             step={1000}
-            onValueChange={(radius) => this.setRadius(radius)} />
+            onValueChange={(radius) => this.props.setRadius(radius)} />
           <Text style={styles.radiusText}> {this.props.selectedRadius / 1000 } KM </Text>
           <Button 
             onPress={() => this.getNews()}
