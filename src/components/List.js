@@ -13,20 +13,30 @@ let { width: windowWidth, height: windowHeight } = Dimensions.get('window')
 const slidePosition = windowHeight - 600
 
 class List extends Component {
-    
     _onPress (link) {
         console.log('open link')
         Linking.openURL(link)
     }
 
-    displayIndicator(){
-        return this.props.accidents.loading ? <ActivityIndicator/> : null
+    // displayIndicator(){
+    //     return this.props.accidents.loading ? <ActivityIndicator/> : null
+    // }
+
+    sendStatusNotFound () {
+        if(this.props.accidents.accidents.length === 0) {
+          console.log('masuk not found')
+          return (
+            <View style ={styles.zero}>
+                <Text>No accident around here</Text>
+            </View>
+          )
+        }
     }
 
     render() {
         return (
           <View style={styles.container}>
-          { this.displayIndicator() }
+          {this.sendStatusNotFound()}
             <FlatList horizontal
             data={this.props.accidents.accidents}
             renderItem={({item}) => {
@@ -73,6 +83,16 @@ const styles = StyleSheet.create({
         flex: 3,
         paddingLeft: 12,
         maxHeight: 35,
+    },
+    zero: {
+        backgroundColor: '#E5E3ED',
+        flexDirection: 'row',
+        width: windowWidth - 40,
+        padding: 10,
+        marginLeft: 10,
+        marginRight: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 })
 
@@ -90,4 +110,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(List)
+
+// onPress={() => {this._onPress(item.accident.linksite)}
 

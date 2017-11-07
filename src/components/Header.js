@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     top:0,
     width: '100%',
     zIndex: 99,
-    paddingTop: 15,
+    paddingTop: 35,
     paddingBottom: 22,
     alignItems: 'center',
     shadowColor: 'black',
