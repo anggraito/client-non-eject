@@ -63,16 +63,18 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         position: 'absolute', 
-        bottom: 58,
+        bottom: 45,
         alignItems: 'center'
     },
     contentWrap:{
-        backgroundColor: '#E5E3ED',
+        backgroundColor: '#fff', //E5E3ED
         flexDirection: 'row',
         width: windowWidth - 40,
         padding: 10,
         marginLeft: 10,
-        marginRight: 10
+        marginRight: 10,
+        borderColor: 'rgba(255, 151, 46, 0.4)',
+        borderWidth: 1
     },
     img: {
         width: 30,
@@ -85,14 +87,16 @@ const styles = StyleSheet.create({
         maxHeight: 35,
     },
     zero: {
-        backgroundColor: '#E5E3ED',
+        backgroundColor: 'rgba(232, 231, 239, 0.99)',
         flexDirection: 'row',
         width: windowWidth - 40,
         padding: 10,
         marginLeft: 10,
         marginRight: 10,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderColor: 'rgba(255, 151, 46, 0.4)',
+        borderWidth: 2
     }
 })
 

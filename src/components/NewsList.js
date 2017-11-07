@@ -20,9 +20,13 @@ class NewsList extends Component {
     }
 
     render() {
+        const { goBack } = this.props.navigation;
         return (
             <View style={styles.container}>
-                <Button title="Back"></Button>
+                <Button
+                    title="Go back"
+                    onPress={() => goBack()}
+                />
                 <Text>List of Accident on This Area</Text>
                 <FlatList
                     data={this.props.accidents.accidents}

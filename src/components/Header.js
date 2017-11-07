@@ -38,13 +38,12 @@ class Header extends React.Component {
   }
 
   render() {
-    // console.log('state render',this.state.region)
     return (
       <View style={styles.container}>
         <View style={styles.imgWrapper}>
           <Image 
               style={styles.imgItem}
-              source={require('../assets/images/accidentifier.png')} />
+              source={require('../assets/images/logo-font.png')} />
         </View>
         <GooglePlacesAutocomplete
           placeholder='Enter Location'
@@ -74,15 +73,18 @@ class Header extends React.Component {
               paddingRight: '10%',
             },
             textInput: {
-              backgroundColor: 'rgba(229,227,237,0.8)',
-              height: 30,
-              color: '#5d5d5d',
+              backgroundColor: 'rgba(232, 231, 239, 0.99)',
+              height: 35,
+              color: '#1B3E66',
               fontSize: 16,
               marginLeft: 0,
               marginRight: 0,
             },
+            description: {
+              color: '#fff'
+            },
             predefinedPlacesDescription: {
-              color: '#1faadb'
+              color: '#FF972E'
             },
           }}
           currentLocation={false}
@@ -99,31 +101,31 @@ class Header extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(255,255,255, 0.9)',
+    backgroundColor: 'rgba(27, 62, 102, 0.95)',
     position: 'absolute',
     top:0,
     width: '100%',
     zIndex: 99,
-    paddingTop: 35,
-    paddingBottom: 22,
+    paddingTop: 25,
+    paddingBottom: 15,
     alignItems: 'center',
     shadowColor: 'black',
     shadowOffset: {
       width: 0,
-      height: 3
+      height: 1
     },
     shadowRadius: 5,
-    shadowOpacity: 1.0
+    shadowOpacity: 0.9
   },
   imgWrapper: {
     flex: 1,
-    width: 205,
-    height: 45,
+    width: 200,
+    height: 50,
     alignItems: 'center',
   },
   imgItem:{
     width: '100%',
-    height: '80%'
+    height: '100%'
   }
 })
 

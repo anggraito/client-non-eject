@@ -14,23 +14,6 @@ export const getDataAPI = (dataFromMaps) => {
       dispatch(setLoading(false))
     })
     .catch(err => { console.log('meesage error eror erro', err)})
-
-    // return fetch(url, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: dataFrontEnd
-    // })
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-    //     console.log('ini data response', responseJson) 
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
-
   }
 }
 
@@ -40,8 +23,6 @@ export const setDataAccidents = (data) => {
     payload: { data }
   }
 }
-
-
 
 export const search_region = (detailRegion) => {
   console.log('ini di action-----> ',detailRegion)

@@ -126,10 +126,10 @@ class Maps extends React.Component {
     bbStyle = function(vheight) {
       return {
         position: 'absolute',
-        top: vheight,
+        top: '26%',
         left: 10,
         backgroundColor: 'transparent',
-        zIndex: 99
+        zIndex: 9
       }
     }
     return (
@@ -177,7 +177,7 @@ class Maps extends React.Component {
               <MapView.Marker key = {idx}
                 title = {data.title}
                 coordinate = {data.coordinates}
-                image={require('../assets/images/icon-crash.png')}>
+                image={require('../assets/images/rsz-icon-crash.png')}>
                 <Animated.View style={[styles.ring]} />
               </MapView.Marker>
             )
@@ -222,10 +222,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     position: 'absolute', 
-    bottom: 15, 
+    bottom: 0, 
     backgroundColor: 'rgba(255,255,255, 0.9)',
     width: '100%',
-    paddingBottom: 8, 
+    paddingBottom: 0, 
     paddingLeft: '2%',
     alignItems: 'center'
   },
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     left: '65%',
     height: 35,
     borderRadius: 85/2,
-    backgroundColor: 'rgba(212, 253, 253, 0.9)',
+    backgroundColor: 'rgba(255, 151, 46, 0.8)',
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: 'black',
