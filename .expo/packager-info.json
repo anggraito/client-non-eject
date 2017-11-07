@@ -2,7 +2,7 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://bt-66s.rahidayat.client-non-eject.exp.direct",
   "packagerNgrokUrl": "https://packager.bt-66s.rahidayat.client-non-eject.exp.direct",
-  "ngrokPid": 1059,
-  "packagerPort": 19001,
-  "packagerPid": 1038
+  "ngrokPid": 5692,
+  "packagerPort": 19002,
+  "packagerPid": 5672
 }

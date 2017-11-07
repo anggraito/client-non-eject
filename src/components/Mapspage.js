@@ -6,6 +6,17 @@ import { StyleSheet, Text,
         Animated, TouchableOpacity, ActivityIndicator} from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
+import {
+  BallIndicator,
+  BarIndicator,
+  DotIndicator,
+  MaterialIndicator,
+  PacmanIndicator,
+  PulseIndicator,
+  SkypeIndicator,
+  UIActivityIndicator,
+  WaveIndicator,
+} from 'react-native-indicators';
 
 import { setRegion, getDataAPI, setRadius, setLoading } from '../actions/RegionActions'
 import List from './List'
@@ -96,7 +107,7 @@ class Maps extends React.Component {
       lat: this.props.regional.latitude,
       lng: this.props.regional.longitude,
       radius: this.props.selectedRadius / 1000
-    }
+    } 
     this.props.getDataAPI(dataFromMaps)
   }
   
@@ -185,7 +196,10 @@ class Maps extends React.Component {
         </MapView>
         {this.props.loading &&
           <View style={styles.loading}>
-            <ActivityIndicator size='large' />
+            {/* <ActivityIndicator size='large' /> */}
+            
+            <WaveIndicator color='red' size={100}/>
+            
           </View>
         }
         <List />
