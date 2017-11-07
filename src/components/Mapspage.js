@@ -190,7 +190,7 @@ class Maps extends React.Component {
               <MapView.Marker key = {idx}
                 title = {data.title}
                 coordinate = {data.coordinates}
-                image={require('../assets/images/markerpoint5.png')}>
+                image={require('../assets/images/icon-crash.png')}>
                 <Animated.View style={[styles.ring]} />
               </MapView.Marker>
             )
