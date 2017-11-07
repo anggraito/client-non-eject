@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     contentWrap:{
-        backgroundColor: 'red',
+        backgroundColor: '#E5E3ED',
         flexDirection: 'row',
         width: windowWidth - 40,
         padding: 10,

@@ -11,6 +11,7 @@ export const getDataAPI = (dataFromMaps) => {
     }
     axios.post(url, dataFrontEnd).then(({ data }) => {
       dispatch(setDataAccidents(data))
+      dispatch(setLoading(false))
     })
     .catch(err => { console.log('meesage error eror erro', err)})
 
@@ -70,4 +71,13 @@ export const setRadius = (radius) => {
       radius
     }
   }
+}
+
+export const setLoading = (loading) => {
+ return {
+   type: 'SET_LOADING',
+   payload: {
+     loading
+   }
+ }
 }

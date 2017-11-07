@@ -5,7 +5,7 @@ import { StyleSheet, Text,
 import { connect } from 'react-redux'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 
-import { setRegion, getDataAPI } from '../actions/RegionActions'
+import { setRegion, getDataAPI, setLoading } from '../actions/RegionActions'
 
 let { width, height } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
@@ -22,7 +22,12 @@ class Header extends React.Component {
     this.getNewsInSearch()
   }
 
+  changeLoading () {
+    this.props.setLoading(!this.props.loading)
+  }
+
   getNewsInSearch() {
+    this.changeLoading()
     console.log('klik list search')
     var dataFromMaps = {
       lat: this.props.regional.latitude,
@@ -36,9 +41,11 @@ class Header extends React.Component {
     // console.log('state render',this.state.region)
     return (
       <View style={styles.container}>
-        <Image 
-          style={styles.imgWrapper}
-          source={require('../assets/images/logo-font.gif')} />
+        <View style={styles.imgWrapper}>
+          <Image 
+              style={styles.imgItem}
+              source={require('../assets/images/accidentifier.png')} />
+        </View>
         <GooglePlacesAutocomplete
           placeholder='Enter Location'
           minLength={2}
@@ -60,14 +67,14 @@ class Header extends React.Component {
               paddingTop: 0,
               borderTopWidth: 0,
               borderBottomWidth: 0,
-              marginTop: 10,
+              marginTop: 0,
               height: 40,
               alignItems: 'center',
               paddingLeft: '10%',
               paddingRight: '10%',
             },
             textInput: {
-              backgroundColor: 'rgba(0,0,0,0.1)',
+              backgroundColor: 'rgba(229,227,237,0.8)',
               height: 30,
               color: '#5d5d5d',
               fontSize: 16,
@@ -96,21 +103,35 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top:0,
     width: '100%',
-    zIndex: 999,
-    paddingTop: 20,
-    paddingBottom: 20,
+    zIndex: 99,
+    paddingTop: 15,
+    paddingBottom: 22,
     alignItems: 'center',
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowRadius: 5,
+    shadowOpacity: 1.0
   },
   imgWrapper: {
-    width: '65%', 
-    height: 47,
+    flex: 1,
+    width: 205,
+    height: 45,
+    alignItems: 'center',
+  },
+  imgItem:{
+    width: '100%',
+    height: '80%'
   }
 })
 
 const mapStateToProps = state => {
   return {
     regional: state.HeaderReducer.regional,
-    selectedRadius: state.HeaderReducer.selectedRadius
+    selectedRadius: state.HeaderReducer.selectedRadius,
+    loading: state.HeaderReducer.loading
   }
 }
 
@@ -118,7 +139,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setRegion: (region) =>  dispatch(setRegion(region)),
-    getDataAPI: (dataFromMaps) => dispatch(getDataAPI(dataFromMaps))
+    getDataAPI: (dataFromMaps) => dispatch(getDataAPI(dataFromMaps)),
+    setLoading: (loading) => dispatch(setLoading(loading))
   }
 } 
 

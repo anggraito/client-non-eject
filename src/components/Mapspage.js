@@ -3,11 +3,11 @@ import { StyleSheet, Text,
         View, Picker, Image,
         Dimensions, Button, 
         Slider, FlatList,
-        Animated, TouchableOpacity} from 'react-native'
+        Animated, TouchableOpacity, ActivityIndicator} from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 
-import { setRegion, getDataAPI, setRadius } from '../actions/RegionActions'
+import { setRegion, getDataAPI, setRadius, setLoading } from '../actions/RegionActions'
 import List from './List'
 
 let { width, height, height: windowHeight } = Dimensions.get('window')
@@ -87,7 +87,12 @@ class Maps extends React.Component {
     this.props.setRegion(region)
   }
 
+  changeLoading () {
+    this.props.setLoading(!this.props.loading)
+  }
+
   getNews () {
+    this.changeLoading()
     console.log('click')
     var dataFromMaps = {
       lat: this.props.regional.latitude,
@@ -116,7 +121,7 @@ class Maps extends React.Component {
 
   render() {
     console.log('data store regional',this.props.regional)
-    const buttonCurrent = windowHeight - 420
+    const buttonCurrent = windowHeight - 435
     const hitSlop = {
       top: 15,
       bottom: 15,
@@ -144,8 +149,10 @@ class Maps extends React.Component {
             <Image 
               source={require('../assets/images/current-position.png')} />
          </TouchableOpacity>
-       </View>
-
+      </View>
+      <View style={styles.counter}>
+        <Text> {this.props.accidents.accidents.length} accident(s) </Text>
+      </View>
         <MapView
           provider={ PROVIDER_GOOGLE }
           style={ styles.map }
@@ -178,6 +185,11 @@ class Maps extends React.Component {
             )
           })}
         </MapView>
+        {this.props.loading &&
+          <View style={styles.loading}>
+            <ActivityIndicator size='large' />
+          </View>
+        }
         <List />
         <View style={styles.footerWrap}>
           <Slider
@@ -189,8 +201,10 @@ class Maps extends React.Component {
             onValueChange={(radius) => this.props.setRadius(radius)} />
           <Text style={styles.radiusText}> {this.props.selectedRadius / 1000 } KM </Text>
           <Button 
+            style={styles.buttonUpdate}
             onPress={() => this.getNews()}
-            title="Find"/>
+            title="Update"
+            color="#1B3E66" />
         </View>
       </View>
     )
@@ -203,7 +217,6 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    paddingBottom: '20%'
   },
   compassStyle:{
     left: 10,
@@ -217,11 +230,11 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingBottom: 8, 
     paddingLeft: '2%',
-    paddingRight: '2%',
     alignItems: 'center'
   },
   slider: {
     flex: 1,
+    borderColor: 'blueviolet',
   },
   radiusText:{
     paddingLeft: 2,
@@ -248,6 +261,33 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     shadowOpacity: 0.12,
     zIndex: 10,
+  },
+  buttonUpdate:{
+    padding: 0,
+    borderRadius: 0
+  },
+  counter: {
+    width: '30%',
+    top: 140,
+    left: '65%',
+    height: 35,
+    borderRadius: 85/2,
+    backgroundColor: 'rgba(212, 253, 253, 0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // shadowColor: 'black',
+    // shadowRadius: 8,
+    shadowOpacity: 0.12,
+    zIndex: 10,
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
 
@@ -256,7 +296,8 @@ const mapStateToProps = state => {
   return {
     regional: state.HeaderReducer.regional,
     accidents: state.HeaderReducer.accidents,
-    selectedRadius: state.HeaderReducer.selectedRadius
+    selectedRadius: state.HeaderReducer.selectedRadius,
+    loading: state.HeaderReducer.loading,
   }
 }
 
@@ -264,7 +305,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setRegion: (region) =>  dispatch(setRegion(region)),
     getDataAPI: (dataFromMaps) => dispatch(getDataAPI(dataFromMaps)),
-    setRadius: (radius) => dispatch(setRadius(radius))
+    setRadius: (radius) => dispatch(setRadius(radius)),
+    setLoading: (loading) => dispatch(setLoading(loading))
   }
 } 
 
