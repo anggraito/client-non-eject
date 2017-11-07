@@ -3,11 +3,11 @@ import { StyleSheet, Text,
         View, Picker, Image,
         Dimensions, Button, 
         Slider, FlatList,
-        Animated, TouchableOpacity} from 'react-native'
+        Animated, TouchableOpacity, ActivityIndicator} from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 
-import { setRegion, getDataAPI, setRadius } from '../actions/RegionActions'
+import { setRegion, getDataAPI, setRadius, setLoading } from '../actions/RegionActions'
 import List from './List'
 
 let { width, height, height: windowHeight } = Dimensions.get('window')
@@ -86,8 +86,11 @@ class Maps extends React.Component {
     console.log('aa')
     this.props.setRegion(region)
   }
-
+  changeLoading () {
+    this.props.setLoading(!this.props.loading)
+  }
   getNews () {
+    this.changeLoading()
     console.log('click')
     var dataFromMaps = {
       lat: this.props.regional.latitude,
@@ -132,10 +135,10 @@ class Maps extends React.Component {
         zIndex: 99
       }
     }
-
+   
     return (
       <View style ={styles.container}>
-
+       
       <View style={bbStyle(buttonCurrent)}>
          <TouchableOpacity
            hitSlop = {hitSlop}
@@ -148,7 +151,6 @@ class Maps extends React.Component {
        <View style={styles.counter}>
         <Text> {this.props.accidents.accidents.length} accident(s) </Text>
        </View>
-
         <MapView
           provider={ PROVIDER_GOOGLE }
           style={ styles.map }
@@ -181,6 +183,11 @@ class Maps extends React.Component {
             )
           })}
         </MapView>
+        {this.props.loading &&
+          <View style={styles.loading}>
+            <ActivityIndicator size='large' />
+          </View>
+        }
         <List />
         <View style={styles.footerWrap}>
           <Slider
@@ -265,6 +272,15 @@ const styles = StyleSheet.create({
     // shadowRadius: 8,
     shadowOpacity: 0.12,
     zIndex: 10,
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
 
@@ -273,7 +289,8 @@ const mapStateToProps = state => {
   return {
     regional: state.HeaderReducer.regional,
     accidents: state.HeaderReducer.accidents,
-    selectedRadius: state.HeaderReducer.selectedRadius
+    selectedRadius: state.HeaderReducer.selectedRadius,
+    loading: state.HeaderReducer.loading,
   }
 }
 
@@ -281,7 +298,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setRegion: (region) =>  dispatch(setRegion(region)),
     getDataAPI: (dataFromMaps) => dispatch(getDataAPI(dataFromMaps)),
-    setRadius: (radius) => dispatch(setRadius(radius))
+    setRadius: (radius) => dispatch(setRadius(radius)),
+    setLoading: (loading) => dispatch(setLoading(loading))
   }
 } 
 

@@ -2,8 +2,8 @@ import axios from 'axios'
 
 export const getDataAPI = (dataFromMaps) => {
   return (dispatch, getState) => {
-    // const url = 'http://35.185.184.137/api/accident'
-    const url = 'http://35.196.134.74/api/accident'
+    const url = 'http://35.185.184.137/api/accident'
+    // const url = 'http://35.196.134.74/api/accident'
     // const url = 'http://localhost:3000/api/accident'
     var dataFrontEnd = {
       lat: dataFromMaps.lat,
@@ -12,6 +12,7 @@ export const getDataAPI = (dataFromMaps) => {
     }
     axios.post(url, dataFrontEnd).then(({ data }) => {
       dispatch(setDataAccidents(data))
+      dispatch(setLoading(false))
     })
     .catch(err => { console.log('meesage error eror erro', err)})
 
@@ -69,6 +70,15 @@ export const setRadius = (radius) => {
     type: 'SET_RADIUS',
     payload: {
       radius
+    }
+  }
+}
+
+export const setLoading = (loading) => {
+  return {
+    type: 'SET_LOADING',
+    payload: {
+      loading
     }
   }
 }
