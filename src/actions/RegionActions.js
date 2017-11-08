@@ -2,8 +2,8 @@ import axios from 'axios'
 
 export const getDataAPI = (dataFromMaps) => {
   return (dispatch, getState) => {
-    const url = 'http://35.196.134.74/api/accident'
-    // const url = 'http://localhost:3000/api/accident'
+    // const url = 'http://35.196.134.74/api/accident' //har
+    const url = 'http://35.185.184.137/api/accident' //beg
     var dataFrontEnd = {
       lat: dataFromMaps.lat,
       lng: dataFromMaps.lng,

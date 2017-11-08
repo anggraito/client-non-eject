@@ -39,10 +39,11 @@ class List extends Component {
           {this.sendStatusNotFound()}
             <FlatList horizontal
             data={this.props.accidents.accidents}
+            keyExtractor={(item, index) => item._id}
             renderItem={({item}) => {
                 return (
-                    <TouchableHighlight onPress={() => {this._onPress(item.accident.linksite)} }>
-                        <View style={styles.contentWrap}>
+                    <TouchableHighlight onPress={() => {this._onPress(item.accident.linksite)} } key={item._id}>
+                        <View style={styles.contentWrap} key={item._id}>
                             <Image
                                 style={styles.img}
                                 source={{uri: item.accident.imgUrl}} />
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-    console.log('bawahnya all state', state.HeaderReducer.regional)
+    // console.log('bawahnya all state', state.HeaderReducer.regional)
     return {
         accidents: state.HeaderReducer.accidents
     }

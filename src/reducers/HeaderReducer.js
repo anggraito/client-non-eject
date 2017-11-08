@@ -22,7 +22,7 @@ const defaultState = {
     markers: [],
   },
   selectedRadius: 1000,
-  loading: false
+  loading: false,
   // markers: []
 }
 

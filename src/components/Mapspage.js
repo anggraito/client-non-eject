@@ -80,7 +80,7 @@ class Maps extends React.Component {
 
   getNews () {
     this.changeLoading()
-    console.log('click')
+    console.log('click on Update Button')
     var dataFromMaps = {
       lat: this.props.regional.latitude,
       lng: this.props.regional.longitude,
@@ -110,8 +110,9 @@ class Maps extends React.Component {
     console.log('_onPress')
   }
 
-  _onLongPress() {
-    console.log('_onLonggggggggPress')
+  _onLongPress(region) {
+    console.log('_onLonggggggggPress', region)
+    // this.props.setRegion(region)
   }
 
   render() {
@@ -163,6 +164,7 @@ class Maps extends React.Component {
           >
           <MapView.Marker draggable
             title={'Drag Me'}
+            image={require('../assets/images/marker-maps.png')}
             coordinate={ this.props.regional }
             onPress={e => console.log(e.nativeEvent)}
             onDragEnd={e => console.log('drag end', e.nativeEvent)}
@@ -185,7 +187,7 @@ class Maps extends React.Component {
         </MapView>
         {this.props.loading &&
           <View style={styles.loading}>
-            <WaveIndicator color='red' size={100} />
+            <WaveIndicator color='#FF972E' size={100} />
           </View>}
         <List />
         <View style={styles.footerWrap}>
