@@ -23,6 +23,7 @@ const defaultState = {
   },
   selectedRadius: 1000,
   loading: false,
+  modalVisible: false
   // markers: []
 }
 
@@ -54,12 +55,13 @@ const HeaderReducer = (state = defaultState, action) => {
         markers: markers,
       
       }
-
       return { ...state, accidents: accidentsData}
     case 'SET_RADIUS' :
       return { ...state, selectedRadius: action.payload.radius}
     case 'SET_LOADING' :
       return { ...state, loading: action.payload.loading}
+    case 'SET_MODAL' :
+      return {...state, modalVisible: action.payload.setBoolean}
     default:
       return state
   }

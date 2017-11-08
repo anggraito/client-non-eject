@@ -240,15 +240,6 @@ const styles = StyleSheet.create({
     width: 50,
     paddingBottom: 0,
   },
-  // ring: {
-  //   width: 24,
-  //   height: 24,
-  //   borderRadius: 12,
-  //   backgroundColor: "rgba(130,4,150, 0.3)",
-  //   position: "absolute",
-  //   borderWidth: 1,
-  //   borderColor: "rgba(130,4,150, 0.5)",
-  // },
   mapButton: {
     width: 35,
     height: 35,

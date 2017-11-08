@@ -62,3 +62,13 @@ export const setLoading = (loading) => {
    }
  }
 }
+
+export const setModal = (setBoolean) => { 
+  console.log('------(modal) ---->', setBoolean) 
+  return {
+    type: 'SET_MODAL',
+    payload: {
+      setBoolean
+    }
+  }
+}

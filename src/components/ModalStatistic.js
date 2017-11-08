@@ -2,10 +2,11 @@ import React, {Component} from 'react'
 import {
     Text, View, Modal,
     StyleSheet, Button,
-    TouchableHighlight
+    Image, TouchableHighlight
 } from 'react-native'
 import { connect } from 'react-redux'
 
+import { setModal } from '../actions/RegionActions'
 
 class ModalStatistic extends Component {
   render() {
@@ -14,16 +15,16 @@ class ModalStatistic extends Component {
         <Modal
           animationType="slide"
           transparent={false}
-          visible={this.state.modalVisible}
+          visible={this.props.modalVisible === true}
           onRequestClose={ () => {alert('you sure?')}}>
-            <View style={{marginTop: 20}}>
-              <Text>Modal</Text>
-              <TouchableHighlight onPress={() => {
-                  this.setModalStatistic(!this.state.modalVisible)
-                  }}>
-                  <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
+          <View style={{marginTop: 20}}>
+            <Text>Modal</Text>
+            <TouchableHighlight
+              onPress={() => {this.props.setModal(false)}}>
+              <Image 
+              source={require('../assets/images/icon-cancel.png')}/>
+            </TouchableHighlight>
+          </View>
         </Modal>
       </View>
     )
@@ -38,11 +39,16 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-  console.log('state new list', state.HeaderReducer.accidents)
   return {
-    accidents: state.HeaderReducer.accidents
+    accidents: state.HeaderReducer.accidents,
+    modalVisible: state.HeaderReducer.modalVisible
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    setModal: (setBoolean) => dispatch(setModal(setBoolean))
+  }
+}
 
-export default connect(mapStateToProps, null)(ModalStatistic)
+export default connect(mapStateToProps, mapDispatchToProps)(ModalStatistic)
