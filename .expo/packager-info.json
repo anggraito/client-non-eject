@@ -1,8 +1,8 @@
 {
-  "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://j5-8hh.anggraito.client-non-eject.exp.direct",
-  "packagerNgrokUrl": "https://packager.j5-8hh.anggraito.client-non-eject.exp.direct",
-  "ngrokPid": 7707,
-  "packagerPort": 19001,
-  "packagerPid": 7696
+  "expoServerPort": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
+  "packagerPort": null,
+  "packagerPid": null
 }

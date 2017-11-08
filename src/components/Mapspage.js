@@ -8,30 +8,18 @@ import { StyleSheet, Text,
         ActivityIndicator} from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
-import {
-  BallIndicator,
-  BarIndicator,
-  DotIndicator,
-  MaterialIndicator,
-  PacmanIndicator,
-  PulseIndicator,
-  SkypeIndicator,
-  UIActivityIndicator,
-  WaveIndicator,
-} from 'react-native-indicators';
+import { WaveIndicator } from 'react-native-indicators'
 
 import Header from './Header'
-import { setRegion, getDataAPI, setRadius, setLoading } from '../actions/RegionActions'
 import List from './List'
+import { setRegion, getDataAPI, setRadius, setLoading } from '../actions/RegionActions'
 
 let { width, height, height: windowHeight } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
-const LATITUDE = 6.17511 //  anggep aja Jakarta 
-const LONGITUDE = 106.8650395 // //  anggep aja Jakarta
+const LATITUDE = 6.17511
+const LONGITUDE = 106.8650395 
 const LATITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
-// const CARD_HEIGHT = height / 4
-// const CARD_WIDTH = CARD_HEIGHT - 50
 
 
 class Maps extends React.Component {
@@ -53,7 +41,6 @@ class Maps extends React.Component {
             longitudeDelta: LONGITUDE_DELTA,
           }
         this.props.setRegion(dataRegion)
-
       },
       (error) => console.log(error.message),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
@@ -61,15 +48,10 @@ class Maps extends React.Component {
   }
 
   changeLabelRadius(radius) {
-    // this.setState({
-    //   selectedRadius: radius
-    // })
     this.props.setRadius(radius)
-    console.log('state radius di change label', this.state.selectedRadius)
   }
 
-
-  functionAA (region) {
+  updateRegionDrag (region) {
     console.log('aa')
     this.props.setRegion(region)
   }
@@ -80,7 +62,6 @@ class Maps extends React.Component {
 
   getNews () {
     this.changeLoading()
-    console.log('click on Update Button')
     var dataFromMaps = {
       lat: this.props.regional.latitude,
       lng: this.props.regional.longitude,
@@ -90,7 +71,6 @@ class Maps extends React.Component {
   }
   
   _findMe () {
-    console.log('find me unnnnnnnnch')
     navigator.geolocation.getCurrentPosition(
       position => {
           dataRegion = {
@@ -106,15 +86,6 @@ class Maps extends React.Component {
     )
   }
 
-  _onPress() {
-    console.log('_onPress')
-  }
-
-  _onLongPress(region) {
-    console.log('_onLonggggggggPress', region)
-    // this.props.setRegion(region)
-  }
-
   render() {
     const { navigate } = this.props.navigation
     const buttonCurrent = windowHeight - 418
@@ -124,7 +95,7 @@ class Maps extends React.Component {
       left: 15,
       right: 15,
     }
-    bbStyle = function(vheight) {
+    findMeStyle = function(vheight) {
       return {
         position: 'absolute',
         top: '26%',
@@ -136,7 +107,7 @@ class Maps extends React.Component {
     return (
       <View style ={styles.container}>
       <Header />
-        <View style={bbStyle(buttonCurrent)}>
+        <View style={findMeStyle(buttonCurrent)}>
           <TouchableOpacity
             hitSlop = {hitSlop}
             style={styles.mapButton}
@@ -158,9 +129,7 @@ class Maps extends React.Component {
           showsTraffic={true}
           zoomEnabled={true}
           moveOnMarkerPress={false}
-          onPress={() => this._onPress()}
-          onLongPress={() => this._onLongPress()}
-          onRegionChangeComplete={ region => this.functionAA(region) }
+          onRegionChangeComplete={ region => this.updateRegionDrag(region) }
           >
           <MapView.Marker draggable
             title={'Drag Me'}

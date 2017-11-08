@@ -13,12 +13,23 @@ import { setModal } from '../actions/RegionActions'
 import ModalStatistic from './ModalStatistic'
 let {width: windowWidth, height: windowHeight} = Dimensions.get('window')
 const slidePosition = windowHeight - 600
+const half = windowHeight * 0.5
 
 class NewsList extends Component {
 
   _onPress(link) {
     console.log('open link')
     Linking.openURL(link)
+  }
+
+  _listData () {
+    if(this.props.accidents.accidents.length === 0) {
+      return (
+        <View style={styles.containerData}>
+          <Text style={styles.noData}>Select your location, please</Text>
+        </View>
+      )
+    }
   }
 
   render() {
@@ -36,7 +47,7 @@ class NewsList extends Component {
               <Text style={styles.titleFont}>List of Accident on This Area</Text>
             </View>
         </View>
-
+        {this._listData() }
         <FlatList
           data={this.props.accidents.accidents}
           keyExtractor={(item, index) => item._id}
@@ -71,61 +82,76 @@ class NewsList extends Component {
 // export default List
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      marginTop: 30
+    flex: 1,
+    marginTop: 30,
+  },
+  containerData: {
+    alignItems: 'center',
+    alignContent: 'center',
+    backgroundColor: '#1B3E66',
+    flex: 1,
+    height: half,
   },
   contentWrap: {
-      backgroundColor: 'rgba(27, 62, 102, 0.8)',
-      flexDirection: 'row',
-      borderBottomWidth: 0.5,
-      borderColor: '#fff',
-      width: windowWidth,
-      padding: 10
+    backgroundColor: 'rgba(27, 62, 102, 0.8)',
+    flexDirection: 'row',
+    borderBottomWidth: 0.5,
+    borderColor: '#fff',
+    width: windowWidth,
+    padding: 10
   },
   img: {
-      width: 30,
-      height: 50,
-      flex: 1
+    width: 30,
+    height: 50,
+    flex: 1
   },
   textNews: {
-      flex: 3,
-      paddingLeft: 12,
-      color: '#E8E7EF'
+    flex: 3,
+    paddingLeft: 12,
+    color: '#E8E7EF'
   },
   buttonBack: {
-      flex: 1
+    flex: 1
   },
   titleArea: {
-      alignItems: 'center',
-      flex: 4
+    alignItems: 'center',
+    flex: 4
   },
   titleFont: {
-      color: '#1B3E66',
-      fontSize: 18,
-      paddingTop: 5,
-      paddingBottom: 10,
-      fontWeight: 'bold'
+    color: '#1B3E66',
+    fontSize: 18,
+    paddingTop: 5,
+    paddingBottom: 10,
+    fontWeight: 'bold'
   },
   combined: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      paddingBottom: 5,
-      paddingLeft: '4%',
-      paddingRight: '4%'
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingBottom: 5,
+    paddingLeft: '4%',
+    paddingRight: '4%'
   },
   titleBack: {
-      color: '#1B3E66',
-      fontSize: 14
+    color: '#1B3E66',
+    fontSize: 14
   },
   statistikButton: {
-      backgroundColor: '#E8E7EF',
-      padding: '3%',
-      alignItems: 'center'
+    backgroundColor: '#E8E7EF',
+    padding: '3%',
+    alignItems: 'center'
   },
   textStatis: {
-      color: '#FF972E',
-      fontSize: 16,
-      fontWeight: 'bold'
+    color: '#FF972E',
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  noData: {
+    fontSize: 18,
+    color: '#E8E7EF',
+    fontWeight: 'bold',
+    borderWidth: 2,
+    borderColor: '#1B3E66',
+    padding: '10%'
   }
 })
 

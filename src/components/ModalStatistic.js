@@ -18,11 +18,17 @@ class ModalStatistic extends Component {
           visible={this.props.modalVisible === true}
           onRequestClose={ () => {alert('you sure?')}}>
           <View style={{marginTop: 20}}>
-            <Text>Modal</Text>
+            
+            
+            
+            
+            
+            
+            
             <TouchableHighlight
               onPress={() => {this.props.setModal(false)}}>
               <Image 
-              source={require('../assets/images/icon-cancel.png')}/>
+                source={require('../assets/images/icon-cancel.png')}/>
             </TouchableHighlight>
           </View>
         </Modal>
