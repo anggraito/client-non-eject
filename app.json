@@ -4,6 +4,12 @@
     "name": "Accidentifier",
     "version": "1.0.0",
     "slug": "accidentifier",
+    "icon": "./src/assets/images/logo-apk.png",
+    "splash": {
+      "image": "./src/assets/images/splash-template.png",
+      "backgroundColor": "#1B3E66",
+      "hideExponentText": false
+    }
   },
   "android": {
     "package": "hariantara.com",

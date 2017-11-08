@@ -2,8 +2,8 @@ import axios from 'axios'
 
 export const getDataAPI = (dataFromMaps) => {
   return (dispatch, getState) => {
-    const url = 'http://35.185.184.137/api/accident'
-    // const url = 'http://localhost:3000/api/accident'
+    // const url = 'http://35.196.134.74/api/accident' //har
+    const url = 'http://35.185.184.137/api/accident' //beg
     var dataFrontEnd = {
       lat: dataFromMaps.lat,
       lng: dataFromMaps.lng,
@@ -11,25 +11,9 @@ export const getDataAPI = (dataFromMaps) => {
     }
     axios.post(url, dataFrontEnd).then(({ data }) => {
       dispatch(setDataAccidents(data))
+      dispatch(setLoading(false))
     })
     .catch(err => { console.log('meesage error eror erro', err)})
-
-    // return fetch(url, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: dataFrontEnd
-    // })
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-    //     console.log('ini data response', responseJson) 
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
-
   }
 }
 
@@ -39,8 +23,6 @@ export const setDataAccidents = (data) => {
     payload: { data }
   }
 }
-
-
 
 export const search_region = (detailRegion) => {
   console.log('ini di action-----> ',detailRegion)
@@ -70,4 +52,13 @@ export const setRadius = (radius) => {
       radius
     }
   }
+}
+
+export const setLoading = (loading) => {
+ return {
+   type: 'SET_LOADING',
+   payload: {
+     loading
+   }
+ }
 }

@@ -3,11 +3,25 @@ import { StyleSheet, Text,
         View, Picker, Image,
         Dimensions, Button, 
         Slider, FlatList,
-        Animated, TouchableOpacity} from 'react-native'
+        TouchableHighlight,
+        Animated, TouchableOpacity, 
+        ActivityIndicator} from 'react-native'
 import { connect } from 'react-redux'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
+import {
+  BallIndicator,
+  BarIndicator,
+  DotIndicator,
+  MaterialIndicator,
+  PacmanIndicator,
+  PulseIndicator,
+  SkypeIndicator,
+  UIActivityIndicator,
+  WaveIndicator,
+} from 'react-native-indicators';
 
-import { setRegion, getDataAPI, setRadius } from '../actions/RegionActions'
+import Header from './Header'
+import { setRegion, getDataAPI, setRadius, setLoading } from '../actions/RegionActions'
 import List from './List'
 
 let { width, height, height: windowHeight } = Dimensions.get('window')
@@ -24,32 +38,7 @@ class Maps extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      selectedRadius: 0,
-      markers: [{  // dummies multiple marker
-        title: 'Koi Residence',
-        coordinates: {
-          latitude: -6.258185,
-          longitude: 106.783374,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
-        }
-      },{
-        title: 'Jl. Desa Cilember, Bogor',
-        coordinates: {
-          latitude: -6.6538811,
-          longitude: 106.9179212,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
-        } 
-      },{
-        title: 'Jl. Kebon Baru Utara',
-        coordinates: {
-          latitude: -6.233003,
-          longitude: 106.862131,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
-        }
-      }]
+      selectedRadius: 0
     }
   }
 
@@ -57,14 +46,12 @@ class Maps extends React.Component {
     console.log('did mount')
     navigator.geolocation.getCurrentPosition(
       position => {
-        // this.setState({
           dataRegion = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
           }
-        // })
         this.props.setRegion(dataRegion)
 
       },
@@ -87,8 +74,13 @@ class Maps extends React.Component {
     this.props.setRegion(region)
   }
 
+  changeLoading () {
+    this.props.setLoading(!this.props.loading)
+  }
+
   getNews () {
-    console.log('click')
+    this.changeLoading()
+    console.log('click on Update Button')
     var dataFromMaps = {
       lat: this.props.regional.latitude,
       lng: this.props.regional.longitude,
@@ -114,9 +106,18 @@ class Maps extends React.Component {
     )
   }
 
+  _onPress() {
+    console.log('_onPress')
+  }
+
+  _onLongPress(region) {
+    console.log('_onLonggggggggPress', region)
+    // this.props.setRegion(region)
+  }
+
   render() {
-    console.log('data store regional',this.props.regional)
-    const buttonCurrent = windowHeight - 420
+    const { navigate } = this.props.navigation
+    const buttonCurrent = windowHeight - 418
     const hitSlop = {
       top: 15,
       bottom: 15,
@@ -126,26 +127,29 @@ class Maps extends React.Component {
     bbStyle = function(vheight) {
       return {
         position: 'absolute',
-        top: vheight,
+        top: '26%',
         left: 10,
         backgroundColor: 'transparent',
-        zIndex: 99
+        zIndex: 9
       }
     }
-
     return (
       <View style ={styles.container}>
-
-      <View style={bbStyle(buttonCurrent)}>
-         <TouchableOpacity
-           hitSlop = {hitSlop}
-           style={styles.mapButton}
-           onPress={ () => this._findMe() }>
-            <Image 
-              source={require('../assets/images/current-position.png')} />
-         </TouchableOpacity>
-       </View>
-
+      <Header />
+        <View style={bbStyle(buttonCurrent)}>
+          <TouchableOpacity
+            hitSlop = {hitSlop}
+            style={styles.mapButton}
+            onPress={ () => this._findMe() }>
+              <Image 
+                source={require('../assets/images/current-position.png')} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.counter}>
+          <TouchableHighlight onPress={() => navigate('NewsList')} >
+            <Text>{this.props.accidents.accidents.length} list</Text>
+          </TouchableHighlight>
+        </View>
         <MapView
           provider={ PROVIDER_GOOGLE }
           style={ styles.map }
@@ -154,10 +158,13 @@ class Maps extends React.Component {
           showsTraffic={true}
           zoomEnabled={true}
           moveOnMarkerPress={false}
+          onPress={() => this._onPress()}
+          onLongPress={() => this._onLongPress()}
           onRegionChangeComplete={ region => this.functionAA(region) }
           >
           <MapView.Marker draggable
             title={'Drag Me'}
+            image={require('../assets/images/marker-maps.png')}
             coordinate={ this.props.regional }
             onPress={e => console.log(e.nativeEvent)}
             onDragEnd={e => console.log('drag end', e.nativeEvent)}
@@ -172,12 +179,16 @@ class Maps extends React.Component {
               <MapView.Marker key = {idx}
                 title = {data.title}
                 coordinate = {data.coordinates}
-                image={require('../assets/images/markerpoint5.png')}>
+                image={require('../assets/images/rsz-icon-crash.png')}>
                 <Animated.View style={[styles.ring]} />
               </MapView.Marker>
             )
           })}
         </MapView>
+        {this.props.loading &&
+          <View style={styles.loading}>
+            <WaveIndicator color='#FF972E' size={100} />
+          </View>}
         <List />
         <View style={styles.footerWrap}>
           <Slider
@@ -189,8 +200,10 @@ class Maps extends React.Component {
             onValueChange={(radius) => this.props.setRadius(radius)} />
           <Text style={styles.radiusText}> {this.props.selectedRadius / 1000 } KM </Text>
           <Button 
+            style={styles.buttonUpdate}
             onPress={() => this.getNews()}
-            title="Find"/>
+            title="Update"
+            color="#1B3E66" />
         </View>
       </View>
     )
@@ -203,7 +216,6 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    paddingBottom: '20%'
   },
   compassStyle:{
     left: 10,
@@ -212,31 +224,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     position: 'absolute', 
-    bottom: 15, 
+    bottom: 0, 
     backgroundColor: 'rgba(255,255,255, 0.9)',
     width: '100%',
-    paddingBottom: 8, 
+    paddingBottom: 0, 
     paddingLeft: '2%',
-    paddingRight: '2%',
     alignItems: 'center'
   },
   slider: {
     flex: 1,
+    borderColor: 'blueviolet',
   },
   radiusText:{
     paddingLeft: 2,
     width: 50,
     paddingBottom: 0,
   },
-  ring: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: "rgba(130,4,150, 0.3)",
-    position: "absolute",
-    borderWidth: 1,
-    borderColor: "rgba(130,4,150, 0.5)",
-  },
+  // ring: {
+  //   width: 24,
+  //   height: 24,
+  //   borderRadius: 12,
+  //   backgroundColor: "rgba(130,4,150, 0.3)",
+  //   position: "absolute",
+  //   borderWidth: 1,
+  //   borderColor: "rgba(130,4,150, 0.5)",
+  // },
   mapButton: {
     width: 35,
     height: 35,
@@ -248,6 +260,33 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     shadowOpacity: 0.12,
     zIndex: 10,
+  },
+  buttonUpdate:{
+    padding: 0,
+    borderRadius: 0
+  },
+  counter: {
+    width: '30%',
+    top: 150,
+    left: '65%',
+    height: 35,
+    borderRadius: 85/2,
+    backgroundColor: 'rgba(255, 151, 46, 0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: 'black',
+    shadowRadius: 3,
+    shadowOpacity: 0.1,
+    zIndex: 10,
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
 
@@ -256,7 +295,8 @@ const mapStateToProps = state => {
   return {
     regional: state.HeaderReducer.regional,
     accidents: state.HeaderReducer.accidents,
-    selectedRadius: state.HeaderReducer.selectedRadius
+    selectedRadius: state.HeaderReducer.selectedRadius,
+    loading: state.HeaderReducer.loading,
   }
 }
 
@@ -264,11 +304,15 @@ const mapDispatchToProps = dispatch => {
   return {
     setRegion: (region) =>  dispatch(setRegion(region)),
     getDataAPI: (dataFromMaps) => dispatch(getDataAPI(dataFromMaps)),
-    setRadius: (radius) => dispatch(setRadius(radius))
+    setRadius: (radius) => dispatch(setRadius(radius)),
+    setLoading: (loading) => dispatch(setLoading(loading))
   }
 } 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Maps)
+
+// onPress={() => navigate('NewsList')}
+// {this.props.accidents.accidents.length}
 
 
 // onValueChange={(radius) => this.changeLabelRadius(radius)}
