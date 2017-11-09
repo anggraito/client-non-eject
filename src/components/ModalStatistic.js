@@ -75,9 +75,8 @@ class ModalStatistic extends Component {
                 source={require('../assets/images/icon-cancel.png')}/>
             </TouchableHighlight>
 
-            <View style={styles.statisticWrap}>
               <ScrollView horizontal={true}>
-                <Text>{"Accident Statistic"}</Text>
+                <View>
                 <VictoryChart
                   width={100 * this.state.dataAciidents.length}
                   theme={VictoryTheme.material}>
@@ -86,7 +85,7 @@ class ModalStatistic extends Component {
                     tickFormat={[0].concat(Object.values(this.state.dataAciidents).map(data => {return data.date.slice(0,10)}))}/>
                   <VictoryAxis
                     dependentAxis
-                    tickFormat={(x) => (`${x/10}%`)}/>
+                    tickFormat={(x) => (`${x}`)}/>
                   <VictoryStack
                     style={{
                       data: { width: 15, stroke: "white", strokeWidth: 2 }
@@ -101,8 +100,9 @@ class ModalStatistic extends Component {
                       y="counter"/>
                   </VictoryStack>
                 </VictoryChart>
+                </View>
               </ScrollView>
-            </View>
+            
           </View>
         </Modal>
       </View>
@@ -127,6 +127,12 @@ const styles = StyleSheet.create({
   statisticWrap: {
     justifyContent: 'center',
     flex: 1
+  },
+  textTitle: {
+    justifyContent: 'center',
+    paddingTop: '20%',
+    fontSize: 18,
+    alignItems: 'center'
   }
 })
 

@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#1B3E66',
     paddingTop: '48%',
-    paddingBottom: '48%'
+    paddingBottom: '55%'
   },
   contentWrap: {
     backgroundColor: 'rgba(27, 62, 102, 0.8)',
