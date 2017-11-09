@@ -1,8 +1,8 @@
 {
   "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://dj-qx9.hariantara.client-non-eject.exp.direct",
-  "packagerNgrokUrl": "https://packager.dj-qx9.hariantara.client-non-eject.exp.direct",
-  "ngrokPid": 4153,
+  "expoServerNgrokUrl": "https://dj-qx9.anggraito.client-non-eject.exp.direct",
+  "packagerNgrokUrl": "https://packager.dj-qx9.anggraito.client-non-eject.exp.direct",
+  "ngrokPid": 1426,
   "packagerPort": 19001,
-  "packagerPid": 4049
+  "packagerPid": 1414
 }

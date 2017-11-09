@@ -47,18 +47,11 @@ class ModalStatistic extends Component {
         if (counter >= 1) {
           data.push({ counter: counter, date: tanggalDiCek })
         }
+        return data
+      }
 
-          return data
-          // this.setState ({
-          //   dataAciidents: data
-          // })
-        }
-
-      // console.log('----------data sesudah ----------')
-      // console.log(clasify(sortedArray))
-      //var dataFixCharts = clasify(sortedArray)
       this.setState ({
-        dataAciidents: clasify(sortedArray)
+        dataAciidents: clasify(sortedArray),
       })
     })
   }
@@ -72,47 +65,48 @@ class ModalStatistic extends Component {
           transparent={false}
           visible={this.props.modalVisible === true}
           onRequestClose={ () => {alert('you sure?')}}>
-          <View style={{marginTop: 20}}>
+          <View style={{marginTop: 40}}>
 
-          <TouchableHighlight
-            onPress={() => {this.props.setModal(false)}}>
-            <Image
-              source={require('../assets/images/icon-cancel.png')}/>
-          </TouchableHighlight>
+            <TouchableHighlight
+              style={{paddingTop: 20, paddingLeft: '5%'}}
+              onPress={() => {this.props.setModal(false)}}>
+              <Image
+                source={require('../assets/images/icon-cancel.png')}/>
+            </TouchableHighlight>
 
-          <ScrollView horizontal={true}>
-              <VictoryChart
-                width={100 * this.state.dataAciidents.length}
-                
-                theme={VictoryTheme.material}
-              >
-                <VictoryAxis
-                  tickValues={Object.keys(this.state.dataAciidents).map(data => {return parseInt(data)})}
-                  tickFormat={Object.values(this.state.dataAciidents).map(data => {return data.date.slice(0,10)})}
-                />
-                <VictoryAxis
-                  dependentAxis
-                  tickFormat={(x) => (`${x/10}%`)}
-                />
-                <VictoryStack
-                  style={{
-                    data: { width: 15, stroke: "white", strokeWidth: 2 }
-                  }}
-                  colorScale={["cyan", "gold", "orange", "tomato"]}
+            <View style={styles.statisticWrap}>
+              <ScrollView horizontal={true}>
+                <VictoryChart
+                  width={100 * this.state.dataAciidents.length}
+
+                  theme={VictoryTheme.material}
                 >
-                  <VictoryBar
-                    style={{
-                      data: { width: 13, strokeWidth: 0, fill: "navy" }
-                    }}
-                    data={this.state.dataAciidents}
-                    x="date"
-                    y="counter"
+                  <VictoryAxis
+                    tickValues={Object.keys(this.state.dataAciidents).map(data => {return parseInt(data)})}
+                    tickFormat={Object.values(this.state.dataAciidents).map(data => {return data.date.slice(0,10)})}
                   />
-                </VictoryStack>
-              </VictoryChart>
+                  <VictoryAxis
+                    dependentAxis
+                    tickFormat={(x) => (`${x/10}%`)}
+                  />
+                  <VictoryStack
+                    style={{
+                      data: { width: 15, stroke: "white", strokeWidth: 2 }
+                    }}
+                    colorScale={["cyan", "gold", "orange", "tomato"]}
+                  >
+                    <VictoryBar
+                      style={{
+                        data: { width: 13, strokeWidth: 0, fill: "navy" }
+                      }}
+                      data={this.state.dataAciidents}
+                      x="date"
+                      y="counter"
+                    />
+                  </VictoryStack>
+                </VictoryChart>
               </ScrollView>
-
-
+            </View>
           </View>
         </Modal>
       </View>
@@ -123,7 +117,24 @@ class ModalStatistic extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
+    marginTop: 40,
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  imgCancel: {
+    width: 25,
+    height: 25
+  },
+  statisticWrap: {
+    justifyContent: 'center',
+    flex: 1
   }
 })
 

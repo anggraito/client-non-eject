@@ -13,7 +13,8 @@ import { setModal } from '../actions/RegionActions'
 import ModalStatistic from './ModalStatistic'
 let {width: windowWidth, height: windowHeight} = Dimensions.get('window')
 const slidePosition = windowHeight - 600
-const half = windowHeight * 0.5
+const widthBox = windowWidth - 200
+const half = windowHeight - 120
 
 class NewsList extends Component {
 
@@ -26,6 +27,7 @@ class NewsList extends Component {
     if(this.props.accidents.accidents.length === 0) {
       return (
         <View style={styles.containerData}>
+          <Image source={require('../assets/images/map-transparant.png')} />
           <Text style={styles.noData}>Select your location, please</Text>
         </View>
       )
@@ -70,11 +72,11 @@ class NewsList extends Component {
           )
         }}></FlatList>
         <ModalStatistic />
-        <TouchableOpacity
+        <TouchableHighlight
           style={styles.statistikButton}
           onPress={() => this.props.setModal(true)}>
           <Text style={styles.textStatis}>Show Statistic</Text>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </View>
     )
   }
@@ -87,18 +89,17 @@ const styles = StyleSheet.create({
   },
   containerData: {
     alignItems: 'center',
-    alignContent: 'center',
     backgroundColor: '#1B3E66',
-    flex: 1,
-    height: half,
+    paddingTop: '48%',
+    paddingBottom: '48%'
   },
   contentWrap: {
     backgroundColor: 'rgba(27, 62, 102, 0.8)',
     flexDirection: 'row',
     borderBottomWidth: 0.5,
     borderColor: '#fff',
-    width: windowWidth,
-    padding: 10
+    width: '100%',
+    padding: '100%'
   },
   img: {
     width: 30,
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   },
   titleFont: {
     color: '#1B3E66',
-    fontSize: 18,
+    fontSize: 16,
     paddingTop: 5,
     paddingBottom: 10,
     fontWeight: 'bold'
@@ -136,9 +137,19 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   statistikButton: {
-    backgroundColor: '#E8E7EF',
+    backgroundColor: '#E8E7EF', //E8E7EF
     padding: '3%',
-    alignItems: 'center'
+    alignItems: 'center',
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowRadius: 5,
+    shadowOpacity: 0.9,
+    position: 'absolute',
+    width: '100%',
+    bottom: 0
   },
   textStatis: {
     color: '#FF972E',
@@ -151,7 +162,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderWidth: 2,
     borderColor: '#1B3E66',
-    padding: '10%'
+    padding: '10%',
   }
 })
 

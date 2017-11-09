@@ -38,13 +38,13 @@ class List extends Component {
             renderItem={({item}) => {
             return (
               <TouchableHighlight
-                onPress={() => {this._onPress(item.accident.linksite)} }
-                >
+                onPress={() => {this._onPress(item.accident.linksite)} }>
                 <View style={styles.contentWrap} key={item._id}>
                   <Image
                     style={styles.img}
                     source={{uri: item.accident.imgUrl}}/>
                   <Text style={styles.textNews}>{item.accident.title}</Text>
+                  <Text style={styles.date}>{item.accident.date}</Text>
                 </View>
               </TouchableHighlight>
             )
