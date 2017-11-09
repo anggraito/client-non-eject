@@ -44,7 +44,7 @@ class List extends Component {
                     style={styles.img}
                     source={{uri: item.accident.imgUrl}}/>
                   <Text style={styles.textNews}>{item.accident.title}</Text>
-                  <Text style={styles.date}>{item.accident.date}</Text>
+                  
                 </View>
               </TouchableHighlight>
             )
@@ -112,3 +112,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(mapStateToProps, mapDispatchToProps)(List)
 
 // onPress={() => {this._onPress(item.accident.linksite)}
+// <Text style={styles.date}>{item.accident.date}</Text>

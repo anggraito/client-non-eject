@@ -31,6 +31,28 @@ class NewsList extends Component {
           <Text style={styles.noData}>Select your location, please</Text>
         </View>
       )
+    } else {
+      <FlatList
+        data={this.props.accidents.accidents}
+        keyExtractor={(item, index) => item._id}
+        renderItem={({item}) => {
+        return (
+          <TouchableHighlight
+            onPress={() => {
+              this._onPress(item.accident.linksite)
+            }}
+            key={item._id}>
+            <View style={styles.contentWrap} key={item._id}>
+              <Image
+                style={styles.img}
+                source={{
+                  uri: item.accident.imgUrl
+                }}/>
+              <Text style={styles.textNews}>{item.accident.title}</Text>
+            </View>
+          </TouchableHighlight>
+        )
+      }}></FlatList>
     }
   }
 
@@ -49,28 +71,7 @@ class NewsList extends Component {
               <Text style={styles.titleFont}>List of Accident on This Area</Text>
             </View>
         </View>
-        {this._listData() }
-        <FlatList
-          data={this.props.accidents.accidents}
-          keyExtractor={(item, index) => item._id}
-          renderItem={({item}) => {
-          return (
-            <TouchableHighlight
-              onPress={() => {
-                this._onPress(item.accident.linksite)
-              }}
-              key={item._id}>
-              <View style={styles.contentWrap} key={item._id}>
-                <Image
-                  style={styles.img}
-                  source={{
-                    uri: item.accident.imgUrl
-                  }}/>
-                <Text style={styles.textNews}>{item.accident.title}</Text>
-              </View>
-            </TouchableHighlight>
-          )
-        }}></FlatList>
+        {this._listData()}
         <ModalStatistic />
         <TouchableHighlight
           style={styles.statistikButton}
@@ -98,8 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 0.5,
     borderColor: '#fff',
-    width: '100%',
-    padding: '100%'
+
   },
   img: {
     width: 30,
