@@ -34,12 +34,12 @@ class List extends Component {
           {this.sendStatusNotFound()}
           <FlatList horizontal
             data={this.props.accidents.accidents}
-            keyExtractor={(item, index) => item._id}
+            keyExtractor={(item) => item._id}
             renderItem={({item}) => {
             return (
               <TouchableHighlight
                 onPress={() => {this._onPress(item.accident.linksite)} }
-                key={item._id}>
+                >
                 <View style={styles.contentWrap} key={item._id}>
                   <Image
                     style={styles.img}

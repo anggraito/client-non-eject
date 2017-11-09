@@ -2,8 +2,8 @@ import axios from 'axios'
 
 export const getDataAPI = (dataFromMaps) => {
   return (dispatch, getState) => {
-    // const url = 'http://35.196.134.74/api/accident' //har
-    const url = 'http://35.185.184.137/api/accident' //beg
+    const url = 'http://35.196.134.74/api/accident' //har
+    // const url = 'http://35.185.184.137/api/accident' //beg
     var dataFrontEnd = {
       lat: dataFromMaps.lat,
       lng: dataFromMaps.lng,
@@ -63,8 +63,8 @@ export const setLoading = (loading) => {
  }
 }
 
-export const setModal = (setBoolean) => { 
-  console.log('------(modal) ---->', setBoolean) 
+export const setModal = (setBoolean) => {
+  console.log('------(modal) ---->', setBoolean)
   return {
     type: 'SET_MODAL',
     payload: {

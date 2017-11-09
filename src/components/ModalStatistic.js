@@ -2,14 +2,69 @@ import React, {Component} from 'react'
 import {
     Text, View, Modal,
     StyleSheet, Button,
-    Image, TouchableHighlight
+    Image, TouchableHighlight, ScrollView
 } from 'react-native'
 import { connect } from 'react-redux'
-
 import { setModal } from '../actions/RegionActions'
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryStack, VictoryLabel } from "victory-native";
+import axios from 'axios'
 
 class ModalStatistic extends Component {
+  constructor() {
+    super ()
+    this.state = {
+      dataAciidents : []
+    }
+  }
+
+  componentWillMount (){
+    axios.get('http://35.196.134.74/api/accident')
+    .then(response => {
+      function sortArray(array) {
+          return array.sort(function (a, b) {
+          return new Date(a.date) - new Date(b.date)
+        })
+      }
+
+      var sortedArray = sortArray(response.data)
+
+      function clasify(sortedArray) {
+        var clasified = []
+        var data = []
+        var tanggalDiCek = sortedArray[0].date
+        var counter = 0
+        for (let i = 0; i < sortedArray.length; i++) {
+
+          if (tanggalDiCek === sortedArray[i].date) {
+            counter += 1
+          } else {
+            data.push({ counter: counter, date: tanggalDiCek })
+            tanggalDiCek = sortedArray[i].date
+            counter = 1
+          }
+        }
+
+        if (counter >= 1) {
+          data.push({ counter: counter, date: tanggalDiCek })
+        }
+
+          return data
+          // this.setState ({
+          //   dataAciidents: data
+          // })
+        }
+
+      // console.log('----------data sesudah ----------')
+      // console.log(clasify(sortedArray))
+      //var dataFixCharts = clasify(sortedArray)
+      this.setState ({
+        dataAciidents: clasify(sortedArray)
+      })
+    })
+  }
+
   render() {
+    console.log('=================>', this.state.dataAciidents);
     return (
       <View style={styles.container}>
         <Modal
@@ -18,18 +73,46 @@ class ModalStatistic extends Component {
           visible={this.props.modalVisible === true}
           onRequestClose={ () => {alert('you sure?')}}>
           <View style={{marginTop: 20}}>
-            
-            
-            
-            
-            
-            
-            
-            <TouchableHighlight
-              onPress={() => {this.props.setModal(false)}}>
-              <Image 
-                source={require('../assets/images/icon-cancel.png')}/>
-            </TouchableHighlight>
+
+          <TouchableHighlight
+            onPress={() => {this.props.setModal(false)}}>
+            <Image
+              source={require('../assets/images/icon-cancel.png')}/>
+          </TouchableHighlight>
+
+          <ScrollView horizontal={true}>
+              <VictoryChart
+                width={100 * this.state.dataAciidents.length}
+                
+                theme={VictoryTheme.material}
+              >
+                <VictoryAxis
+                  tickValues={Object.keys(this.state.dataAciidents).map(data => {return parseInt(data)})}
+                  tickFormat={Object.values(this.state.dataAciidents).map(data => {return data.date.slice(0,10)})}
+                />
+                <VictoryAxis
+                  dependentAxis
+                  tickFormat={(x) => (`${x/10}%`)}
+                />
+                <VictoryStack
+                  style={{
+                    data: { width: 15, stroke: "white", strokeWidth: 2 }
+                  }}
+                  colorScale={["cyan", "gold", "orange", "tomato"]}
+                >
+                  <VictoryBar
+                    style={{
+                      data: { width: 13, strokeWidth: 0, fill: "navy" }
+                    }}
+                    data={this.state.dataAciidents}
+                    x="date"
+                    y="counter"
+                  />
+                </VictoryStack>
+              </VictoryChart>
+              </ScrollView>
+
+
           </View>
         </Modal>
       </View>

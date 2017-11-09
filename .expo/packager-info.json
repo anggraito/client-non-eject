@@ -1,8 +1,8 @@
 {
-  "expoServerPort": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
-  "packagerPort": null,
-  "packagerPid": null
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://dj-qx9.hariantara.client-non-eject.exp.direct",
+  "packagerNgrokUrl": "https://packager.dj-qx9.hariantara.client-non-eject.exp.direct",
+  "ngrokPid": 4153,
+  "packagerPort": 19001,
+  "packagerPid": 4049
 }
