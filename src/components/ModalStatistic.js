@@ -2,11 +2,12 @@ import React, {Component} from 'react'
 import {
     Text, View, Modal,
     StyleSheet, Button,
-    Image, TouchableHighlight, ScrollView
+    Image, TouchableHighlight, 
+    ScrollView
 } from 'react-native'
 import { connect } from 'react-redux'
 import { setModal } from '../actions/RegionActions'
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryStack, VictoryLabel } from "victory-native";
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryStack, VictoryLabel } from 'victory-native'
 import axios from 'axios'
 
 class ModalStatistic extends Component {
@@ -68,7 +69,7 @@ class ModalStatistic extends Component {
           <View style={{marginTop: 40}}>
 
             <TouchableHighlight
-              style={{paddingTop: 20, paddingLeft: '5%'}}
+              style={{paddingTop: '5%', paddingLeft: '5%'}}
               onPress={() => {this.props.setModal(false)}}>
               <Image
                 source={require('../assets/images/icon-cancel.png')}/>
@@ -76,33 +77,28 @@ class ModalStatistic extends Component {
 
             <View style={styles.statisticWrap}>
               <ScrollView horizontal={true}>
+                <Text>{"Accident Statistic"}</Text>
                 <VictoryChart
                   width={100 * this.state.dataAciidents.length}
-
-                  theme={VictoryTheme.material}
-                >
+                  theme={VictoryTheme.material}>
                   <VictoryAxis
                     tickValues={Object.keys(this.state.dataAciidents).map(data => {return parseInt(data)})}
-                    tickFormat={Object.values(this.state.dataAciidents).map(data => {return data.date.slice(0,10)})}
-                  />
+                    tickFormat={[0].concat(Object.values(this.state.dataAciidents).map(data => {return data.date.slice(0,10)}))}/>
                   <VictoryAxis
                     dependentAxis
-                    tickFormat={(x) => (`${x/10}%`)}
-                  />
+                    tickFormat={(x) => (`${x/10}%`)}/>
                   <VictoryStack
                     style={{
                       data: { width: 15, stroke: "white", strokeWidth: 2 }
                     }}
-                    colorScale={["cyan", "gold", "orange", "tomato"]}
-                  >
+                    colorScale={["cyan", "gold", "orange", "tomato"]}>
                     <VictoryBar
                       style={{
-                        data: { width: 13, strokeWidth: 0, fill: "navy" }
+                        data: { width: 25, strokeWidth: 0, fill: "navy" }
                       }}
                       data={this.state.dataAciidents}
                       x="date"
-                      y="counter"
-                    />
+                      y="counter"/>
                   </VictoryStack>
                 </VictoryChart>
               </ScrollView>
@@ -113,7 +109,7 @@ class ModalStatistic extends Component {
     )
   }
 }
-// export default List
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -127,10 +123,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  imgCancel: {
-    width: 25,
-    height: 25
   },
   statisticWrap: {
     justifyContent: 'center',

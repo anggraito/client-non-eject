@@ -4,16 +4,14 @@ import {
 
 let { width, height } = Dimensions.get('window')
 const ASPECT_RATIO = width / height
-// const LATITUDE = -6.17511 //  anggep aja Jakarta 
-// const LONGITUDE = 106.8650395 // //  anggep aja Jakarta
 const LATITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 
 const defaultState = {
   regional: {
-    latitude: -6.17511,
-    longitude: 106.8650395,
+    latitude: -6.2607187,
+    longitude: 106.7816162,
     latitudeDelta: LATITUDE_DELTA,
     longitudeDelta: LONGITUDE_DELTA,
   },
@@ -23,7 +21,7 @@ const defaultState = {
   },
   selectedRadius: 1000,
   loading: false,
-  modalVisible: false
+  modalVisible: false,
   // markers: []
 }
 

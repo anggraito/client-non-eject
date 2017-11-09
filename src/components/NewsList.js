@@ -5,9 +5,11 @@ import {
     FlatList, Image,
     Linking, Dimensions,
     TouchableHighlight,
-    TouchableOpacity
+    TouchableOpacity,
+    ActivityIndicator
 } from 'react-native'
 import {connect} from 'react-redux'
+import { SkypeIndicator } from 'react-native-indicators'
 
 import { setModal } from '../actions/RegionActions'
 import ModalStatistic from './ModalStatistic'
@@ -32,27 +34,32 @@ class NewsList extends Component {
         </View>
       )
     } else {
-      <FlatList
-        data={this.props.accidents.accidents}
-        keyExtractor={(item, index) => item._id}
-        renderItem={({item}) => {
-        return (
-          <TouchableHighlight
-            onPress={() => {
-              this._onPress(item.accident.linksite)
-            }}
-            key={item._id}>
-            <View style={styles.contentWrap} key={item._id}>
-              <Image
-                style={styles.img}
-                source={{
-                  uri: item.accident.imgUrl
-                }}/>
-              <Text style={styles.textNews}>{item.accident.title}</Text>
-            </View>
-          </TouchableHighlight>
-        )
-      }}></FlatList>
+      return (
+        <FlatList
+          data={this.props.accidents.accidents}
+          keyExtractor={(item, index) => item._id}
+          renderItem={({item}) => {
+          return (
+            <TouchableHighlight
+              onPress={() => {
+                this._onPress(item.accident.linksite)
+              }}
+              key={item._id}>
+              <View style={styles.contentWrap} key={item._id}>
+                <Image
+                  style={styles.img}
+                  source={{
+                    uri: item.accident.imgUrl
+                  }}/>
+                <View style={styles.textWrap}>
+                  <Text style={styles.textNews}>{item.accident.title}</Text>
+                  <Text style={styles.date}>Tanggal: {item.accident.date.slice(0,10)}</Text>
+                </View>
+              </View>
+            </TouchableHighlight>
+          )
+        }}></FlatList>
+      )
     }
   }
 
@@ -71,6 +78,10 @@ class NewsList extends Component {
               <Text style={styles.titleFont}>List of Accident on This Area</Text>
             </View>
         </View>
+        {this.props.modalVisible &&
+        <View style={styles.loading}>
+          <ActivityIndicator size="large"/>
+        </View>}
         {this._listData()}
         <ModalStatistic />
         <TouchableHighlight
@@ -99,7 +110,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 0.5,
     borderColor: '#fff',
-
+    width: '100%',
+    padding: '5%'
   },
   img: {
     width: 30,
@@ -107,9 +119,11 @@ const styles = StyleSheet.create({
     flex: 1
   },
   textNews: {
-    flex: 3,
-    paddingLeft: 12,
     color: '#E8E7EF'
+  },
+  date: {
+    color: '#E8E7EF',
+    fontSize: 10
   },
   buttonBack: {
     flex: 1
@@ -137,7 +151,7 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   statistikButton: {
-    backgroundColor: '#E8E7EF', //E8E7EF
+    backgroundColor: '#E8E7EF', 
     padding: '3%',
     alignItems: 'center',
     shadowColor: 'black',
@@ -158,18 +172,29 @@ const styles = StyleSheet.create({
   },
   noData: {
     fontSize: 18,
-    color: '#E8E7EF',
+    color: 'rgba(232, 231, 239, 0.5)',
     fontWeight: 'bold',
     borderWidth: 2,
     borderColor: '#1B3E66',
     padding: '10%',
+  },
+  textWrap: {
+    flex: 3, 
+    paddingLeft: 12,
+  },
+  loading: {
+    zIndex: 99,
+    position: 'absolute',
+    top: '45%',
+    left: '45%',
   }
 })
 
 const mapStateToProps = state => {
   console.log('state accident', state.HeaderReducer.accidents)
   return {
-    accidents: state.HeaderReducer.accidents, 
+    accidents: state.HeaderReducer.accidents,
+    modalVisible: state.HeaderReducer.modalVisible
   }
 }
 

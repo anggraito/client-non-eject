@@ -43,8 +43,10 @@ class List extends Component {
                   <Image
                     style={styles.img}
                     source={{uri: item.accident.imgUrl}}/>
-                  <Text style={styles.textNews}>{item.accident.title}</Text>
-                  
+                    <View style={styles.textWrap}>
+                      <Text style={styles.date}>Tanggal: {item.accident.date.slice(0,10)}</Text>
+                      <Text style={styles.textNews}>{item.accident.title.substring(0, 35)}...</Text>
+                    </View>
                 </View>
               </TouchableHighlight>
             )
@@ -77,11 +79,6 @@ const styles = StyleSheet.create({
     height: 50,
     flex: 1
   },
-  textNews: {
-    flex: 3,
-    paddingLeft: 12,
-    maxHeight: 35
-  },
   zero: {
     backgroundColor: 'rgba(232, 231, 239, 0.99)',
     flexDirection: 'row',
@@ -93,6 +90,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: 'rgba(255, 151, 46, 0.4)',
     borderWidth: 2
+  },
+  date: {
+    fontSize: 10
+  },
+  textWrap: {
+    flex: 3, 
+    paddingLeft: 12,
   }
 })
 
